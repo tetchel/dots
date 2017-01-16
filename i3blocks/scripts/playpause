@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# delete first line (song info) then see if contains "playing"
+# to determine whether to output 'play' or 'pause' icon
+
+getIcon() {
+    ans=""
+    if [ -n "$(tail -n+2 | grep play)" ]; then
+        ans=" "
+    else
+        ans=""
+    fi
+
+    echo "$ans"
+    echo "$ans"
+    echo
+}
+
+mpc status | getIcon
+
+case $BLOCK_BUTTON in
+    1)
+    stat=$(mpc status)
+    if [ -n "$(echo "$stat" | tail -n+2 | grep play)" ]; then
+        mpc pause
+    else
+        mpc play
+    fi
+
+    echo "$stat" | getIcon
+esac

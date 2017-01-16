@@ -1,0 +1,20 @@
+#!/bin/bash
+
+EXT_IP=$(curl -sL --connect-timeout 2 api.ipify.org)
+
+if [[ $? -eq 0 ]]; then
+    # got a valid response
+    echo "$EXT_IP"
+    echo "$EXT_IP"
+#    echo "#00FF00"
+else
+    echo "Offline"
+    echo "NoInet"
+    echo "#FF0000"
+fi
+
+# copy the value when you click on it (requires xclip)
+case $BLOCK_BUTTON in
+    3) echo "$IP" | xclip ;;
+    *) echo "$IP" ;;
+esac

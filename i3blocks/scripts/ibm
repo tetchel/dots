@@ -1,0 +1,14 @@
+#!/bin/bash
+
+IBM=$(ping -c 1 w3.ibm.com)
+
+if [[ $? -eq 0 ]]; then
+    # was able to ping
+    echo "IBM  "
+    echo "IBM  "
+#    echo "#00FF00"
+else
+    echo "IBM  "
+    echo "IBM  "
+    echo "#FF0000"
+fi

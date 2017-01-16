@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+import urllib.request
+import json
+import os
+
+city=6167865
+
+key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
+key = ''
+with open(key_loc, 'r') as f:
+    key = f.read()
+    key = key.strip('\n')
+
+if not key:
+    print("OWM key file error.")
+    exit
+
+url=('http://api.openweathermap.org/data/2.5/weather?id=%s&appid=%s' % (city, key))
+#print(url)
+
+response = ''
+with urllib.request.urlopen(url) as connection:
+    response = connection.read()
+    # for some reason there are extra characters in the response (encoding issue? all should be UTF-8)
+    # only seems to happen in python
+    # multiple at the beginning
+    response = str(response)
+    while (response[0] is not '{'):
+        response = response[1:]
+
+    # and one at the end
+    response = response[:len(response) - 1]
+
+#print(response)
+
+jso = json.loads(response)
+
+temp = jso["main"]["temp"]
+temp = int(temp)
+# K to C
+temp -= 273
+
+temp_icon=''
+if temp < 18:
+    temp_icon=''
+elif temp < 8:
+    temp_icon=''
+elif temp < -3:
+    temp_icon=''
+
+# possible conditions:
+# Thunderstorm 2xx, Drizzle 3xx, Rain 5xx, Snow 6xx, Atmosphere (fog) 7xx, Clear 800, Clouds 80x, Extreme 90x
+code = jso["weather"][0]["id"]
+code = str(code)
+
+icon=''
+if code.startswith('2'):
+    icon=''
+elif code.startswith('3') or code.startswith('5'):
+    icon=''
+elif code.startswith('6'):
+    icon=''
+elif code.startswith('7') or (code.startswith('8') and code is not '800'):
+    icon=''
+elif code.startswith('90'):
+    icon=''
+
+print(temp_icon + '   ' + str(temp) + '°C  ' + icon)
+print(temp_icon + '   ' + str(temp) + '°C  ' + icon)
+print("")

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "  "
+echo "  "
+# Color
+echo ""
+
+case $BLOCK_BUTTON in
+    1) mpc next
+esac

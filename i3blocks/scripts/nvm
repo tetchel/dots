@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+python3 ./weather_getter.py
+
+cat weather_output.txt

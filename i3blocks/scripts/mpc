@@ -1,0 +1,47 @@
+#!/bin/bash
+# Example output
+
+#Phish - Walls Of The Cave
+#[paused]  #147/2095   5:32/11:16 (49%)
+#volume:100%   repeat: off   random: off   single: off   consume: off
+
+filter() {
+    # if the input is only one line, nothing is playing
+    input="$(cat -)"
+    if [ "$(echo "$input" | wc -l)" == "1" ]; then
+        echo -n "[ Stopped ]"
+        return
+    fi
+
+    # output the first line (which is song info), replacing troublesome '&'
+    first_line=$(echo "$input" | head -1)
+    songinfo=$(echo "$first_line" | sed -e "s/&/and/g")
+    # output the timestamp
+    second_line=$(echo "$input" | tail -n+2 | head -1)
+    timestamp=$(echo "$second_line" | awk '{ print $3 }')
+
+    # output play/pause icon to show status
+    icon=""
+    if [ -n "$(echo "$second_line" | grep "play")" ]; then
+        icon=""
+    else
+        icon=""
+    fi
+
+    echo -n " $songinfo  [$timestamp] "
+}
+
+# Output info, but not when it's responding to a click (or there's double output)
+case $BLOCK_BUTTON in
+    # Right click to toggle
+    3)
+        mpc toggle | filter ;;
+    # scroll up to ff
+    4)
+        mpc seek +2 | filter ;;
+    # scroll down to rewind
+    5)
+        mpc seek -2 | filter ;;
+    *)
+        mpc status | filter ;;
+esac
