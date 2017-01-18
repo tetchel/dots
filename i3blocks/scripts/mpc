@@ -9,7 +9,7 @@ filter() {
     # if the input is only one line, nothing is playing
     input="$(cat -)"
     if [ "$(echo "$input" | wc -l)" == "1" ]; then
-        echo -n "[ Stopped ]"
+        echo -n "[Stopped]"
         return
     fi
 
@@ -38,10 +38,12 @@ case $BLOCK_BUTTON in
         mpc toggle | filter ;;
     # scroll up to ff
     4)
-        mpc seek +2 | filter ;;
+        mpc seek +5 | filter ;;
     # scroll down to rewind
     5)
-        mpc seek -2 | filter ;;
+        mpc seek -5 | filter ;;
+        # bug: If < 5 seconds remain in the song, will print 'incorrect arguments', 
+        # which filter will interpret as [stopped] since it's one line only.
     *)
         mpc status | filter ;;
 esac

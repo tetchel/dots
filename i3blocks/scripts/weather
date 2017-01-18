@@ -49,6 +49,11 @@ elif temp < 8:
 elif temp < -3:
     temp_icon=''
 
+# min width is 3 since "-10" is 3 wide
+temp = str(temp)
+while(len(temp) < 3):
+   temp = ' ' + temp 
+
 # possible conditions:
 # Thunderstorm 2xx, Drizzle 3xx, Rain 5xx, Snow 6xx, Atmosphere (fog) 7xx, Clear 800, Clouds 80x, Extreme 90x
 code = jso["weather"][0]["id"]
@@ -61,7 +66,7 @@ elif code.startswith('3') or code.startswith('5'):
     icon=''
 elif code.startswith('6'):
     icon=''
-elif code.startswith('7') or (code.startswith('8') and code is not '800'):
+elif code.startswith('7') or (code.startswith('8') and code != '800'):
     icon=''
 elif code.startswith('90'):
     icon=''

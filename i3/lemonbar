@@ -1,0 +1,14 @@
+#/usr/bin/env bash
+
+# Kill if already running
+pkill lemonbar
+
+clock() {
+   datetime=$(date "+%a %d/%m/%y %k:%M")
+   echo -n "$datetime"
+}
+
+while true; do
+    echo "%{s0}%{r}%{F#FFFF00}%{B#0000FF} $(clock) %{F-}%{B-}"
+    sleep 1
+done

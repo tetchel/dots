@@ -54,13 +54,13 @@ interval=once
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
-[volume]
-label= 
-instance=Master
-#instance=PCM
-interval=once
-signal=10
-min_width=__ 100%
+#[volume]
+#label= 
+#instance=Master
+##instance=PCM
+#interval=once
+#signal=10
+#min_width=__ 100%
 
 [weather]
 interval=300
@@ -85,8 +85,8 @@ interval=60
 label= 
 interval=30
 
-#[ibm]
-#interval=30
+[ibm]
+interval=30
 
 # CPU usage
 #

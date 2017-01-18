@@ -10,6 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
+set $barfont
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -17,7 +18,7 @@ set $mod Mod1
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango: Ubuntu Mono 8 
+font pango:Ubuntu Mono 8
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -116,9 +117,9 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+#bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+p restart
+bindsym $mod+Shift+c restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -150,44 +151,31 @@ bindsym $mod+r mode "resize"
 
 # Exciting new things!
 bindsym $mod+o exec ~/.config/i3lock/i3lock.sh
+bindsym $mod+Print exec scrot -z -e 'mv $f ~/pictures/screens'
+bindsym Print exec scrot -s -z -e 'mv $f ~/pictures/screens'
 
-bindsym --release $mod+Print exec --no-startup-id "scrot '%F-%T.png' -z -e 'mv $f ~/pictures/screens'"
-bindsym --release Print exec --no-startup-id "scrot '%F-%T.png' -s -z -e 'mv $f ~/pictures/screens'"
-#bindsym Print exec shutter -s -c -o --disable-systray '~/pictures/screens/%Y-%m-%d %NN'
+set $bg-color 	         #2f2f2f
+set $inactive-bg-color   #2f2f2f
+set $text-color          #f7f7f7
+set $inactive-text-color #f7f7f7
+set $urgent-bg-color     #E53935
 
 #bb <- Good transparency (disabled because of black borders on GTK windows)
-set $green      #008000
-set $blue       #0069c3
-set $yellow     #cca300
+set $boract              #226622
+#50
+set $boroff              #2f2f2f
+#90
+set $indcol              #93c7eb
 
-set $unfocus    #002d56
-set $unborder   #004d99
-
-set $darktext   #808080
-set $lightext   #f7f7f7
-
-set $urgent     #E53935
-set $indcol     #702020
-
-#                       border      backgr.     text        indicator   child_border
-client.focused          $blue       $blue       $lightext   $yellow     $green
-client.unfocused        $unborder   $unfocus    $lightext
-client.focused_inactive $unborder   $unfocus    $lightext
-client.urgent           $urgent     $urgent     $lightext
+#https://github.com/rokyfox/i3ConfigFiles
+# window colors
+#                       border              background         text                 indicator
+client.focused          $boract             $boract            $text-color          $indcol
+client.unfocused        $boroff	            $boroff            $inactive-text-color $boroff
+client.focused_inactive $boroff             $boroff            $inactive-text-color $boroff
+client.urgent $urgent-bg-color $urgent-bg-color $text-color $indcol8
 
 hide_edge_borders smart
-
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
-for_window [class="(?i)gvim"] border pixel 1
-set $bar_height 25 
-for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down $bar_height px
-
 # No title bar
 for_window [class="(?i)firefox"] border pixel 1
 for_window [class="(?i)rxvt"] border pixel 1
@@ -202,37 +190,27 @@ bindsym ctrl+$mod+s [class="(?i)slack"] focus
 bar {
     output VGA-2
     tray_output VGA-2
-    #height $bar_height
-    tray_padding 2 
-    #separator_symbol ""
-
-    font pango: DejaVu Sans Mono 11, FontAwesome 11
+#    height 25 
+    tray_padding 0 
 
     colors {
         background #0f0f0f
         separator  #757575
 
-        #statusline         $white
-        #background         $transparent
-        #separator          $transparent
-
         #                   border              bg                   text
-		#focused_workspace   
-		#inactive_workspace 
-        #urgent_workspace  
+		focused_workspace   $bg-color           $bg-color           $text-color
+		inactive_workspace  $inactive-bg-color  $inactive-bg-color  $inactive-text-color
+        urgent_workspace    $urgent-bg-color    $urgent-bg-color    $text-color        
     }
+
+    font pango: DejaVu Sans Mono 11, FontAwesome 11
 
     position top
 
     status_command i3blocks
 }
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/neusch.jpg
+exec --no-startup-id feh --bg-scale ~/pictures/neusch.jpg
 exec pkill notif
 exec --no-startup-id dunst
 exec --no-startup-id mopidy
-#exec --no-startup-id compton -b
-exec --no-startup-id pasystray
-
-exec urxvt
-exec firefox

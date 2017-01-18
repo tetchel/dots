@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# make sure working directory is config folder
+
+\cp -rf .bashrc .bash_aliases .bash_custom .vimrc .Xresources .Xdefaults ~/.ncmpcpp/ ~
+\cp -rf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ ~/.config
+\cp -rf scripts/ ~/programs/
+\cp -rf walls/ ~/pictures/
