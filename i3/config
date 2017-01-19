@@ -155,6 +155,8 @@ bindsym --release $mod+Print exec --no-startup-id "scrot '%F-%T.png' -z -e 'mv $
 bindsym --release Print exec --no-startup-id "scrot '%F-%T.png' -s -z -e 'mv $f ~/pictures/screens'"
 #bindsym Print exec shutter -s -c -o --disable-systray '~/pictures/screens/%Y-%m-%d %NN'
 
+focus_follows_mouse no
+
 #bb <- Good transparency (disabled because of black borders on GTK windows)
 set $green      #008000
 set $blue       #0069c3
@@ -203,7 +205,7 @@ bar {
     output VGA-2
     tray_output VGA-2
     #height $bar_height
-    tray_padding 2 
+    tray_padding 1 
     #separator_symbol ""
 
     font pango: DejaVu Sans Mono 11, FontAwesome 11
