@@ -4,7 +4,10 @@ import urllib.request
 import json
 import os
 
-city=6167865
+# Toronto = 6167865
+# Montreal = 6077243
+
+city=6077243
 
 key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
 key = ''

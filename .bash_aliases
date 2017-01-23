@@ -22,6 +22,8 @@ alias screenoff='xset -display :0.0 dpms force off'
 alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
 alias grep="grep -i --color=tty"    # I always forget
 alias df='df -h'        # human readable
+alias quiet=' > /dev/null 2>&1 &'
+
 
 #navigation
 alias ..='cd ./..'

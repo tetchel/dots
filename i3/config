@@ -130,10 +130,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym l resize shrink width 10 px or 10 ppt
+        bindsym l resize shrink width 5 px or 5 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym j resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym semicolon resize grow width 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -155,7 +155,7 @@ bindsym --release $mod+Print exec --no-startup-id "scrot '%F-%T.png' -z -e 'mv $
 bindsym --release Print exec --no-startup-id "scrot '%F-%T.png' -s -z -e 'mv $f ~/pictures/screens'"
 #bindsym Print exec shutter -s -c -o --disable-systray '~/pictures/screens/%Y-%m-%d %NN'
 
-focus_follows_mouse no
+#focus_follows_mouse no
 
 #bb <- Good transparency (disabled because of black borders on GTK windows)
 set $green      #008000
@@ -187,6 +187,7 @@ for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 for_window [class="(?i)gvim"] border pixel 1
+
 set $bar_height 25 
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down $bar_height px
 
@@ -201,12 +202,13 @@ bindsym ctrl+$mod+f [class="(?i)firefox"] focus
 bindsym ctrl+$mod+t [class="(?i)rxvt"] focus
 bindsym ctrl+$mod+s [class="(?i)slack"] focus
 
+set $bar_monitor VGA-1
+
 bar {
-    output VGA-2
-    tray_output VGA-2
+    output $bar_monitor
+    tray_output $bar_monitor 
     #height $bar_height
-    tray_padding 1 
-    #separator_symbol ""
+    tray_padding 1
 
     font pango: DejaVu Sans Mono 11, FontAwesome 11
 
@@ -229,9 +231,11 @@ bar {
     status_command i3blocks
 }
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/neusch.jpg
+exec --no-startup-id feh --bg-fill ~/pictures/walls/neusch.jpg
 exec pkill notif
 exec --no-startup-id dunst
+exec pkill mopidy
+exec pkill mpd
 exec --no-startup-id mopidy
 #exec --no-startup-id compton -b
 exec --no-startup-id pasystray
