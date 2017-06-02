@@ -55,14 +55,21 @@ endfunc
 if has("gui_running")
     set go -=m
     set go -=T
+    set go -=e
 endif
 
 " Mappings
-inoremap jj         <Esc>
-noremap <Up>       <NOP>
-noremap <Down>     <NOP>
-noremap <Left>     <NOP>
-noremap <Right>    <NOP>
+inoremap jk         <Esc>
+inoremap kj         <Esc>
+inoremap Esc        <NOP>
+" Move lines up and down
+nnoremap J          ddp
+nnoremap K          ddkkp
+
+noremap <Up>        <NOP>
+noremap <Down>      <NOP>
+noremap <Left>      <NOP>
+noremap <Right>     <NOP>
 " oo to newline from normal mode
 nnoremap oo         o<Esc>
 " Insert spaces in normal mode
@@ -70,7 +77,7 @@ nnoremap <Space>    i<Space><Esc>l
 nnoremap <Tab>      i<Tab><Esc>l
 " CTRL+Backspace delets a word
 inoremap <C-BS>     <C-W>
-inoremap <C-DEL>     <C-W>
+inoremap <C-DEL>    <C-W>
 set backspace=indent,eol,start
 " noh
 nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
