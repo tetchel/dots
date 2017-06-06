@@ -2,7 +2,6 @@ URxvt*font: xft:Monospace:size=10
 URxvt*boldFont: xft:Monospace:bold:size=10
 
 ! click on links
-URxvt.perl-ext-common : default,matcher
 URxvt.urlLauncher     : firefox
 URxvt.matcher.button  : 1
 
@@ -14,7 +13,7 @@ URxvt.cursorUnderline: true
 # copy-paste with keyboard
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.iso14755: False
-URxvt.perl-ext-common: default,clipboard
+URxvt.perl-ext-common: default,matcher,clipboard
 
 ! to match gnome-terminal "Linux console" scheme
 ! foreground/background
