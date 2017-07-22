@@ -69,6 +69,7 @@ alias vboxmnt='sudo ~/programs/scripts/vboxmnt.sh'
 # i3
 alias lock='~/.config/i3lock/i3lock.sh &'
 alias i3conf='~/.config/i3/config'
+alias quiti3='i3-msg exit'
 # Arch
 alias pmi='sudo pacman -S'
 alias pmup='sudo pacman -Syu'
