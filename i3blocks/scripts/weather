@@ -74,6 +74,6 @@ elif code.startswith('7') or (code.startswith('8') and code != '800'):
 elif code.startswith('90'):
     icon=''
 
-print(temp_icon + '   ' + str(temp) + '°C  ' + icon)
-print(temp_icon + '   ' + str(temp) + '°C  ' + icon)
+print(temp_icon + '   ' + str(temp) + '°  ' + icon)
+print(temp_icon + '   ' + str(temp) + '°  ' + icon)
 print("")
