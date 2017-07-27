@@ -25,6 +25,8 @@ alias df='df -h'        # human readable
 alias du='du -h'
 alias quiet=' > /dev/null 2>&1 &'
 alias quickamend="git add .; git commit --amend; git push -f"
+alias clip="xclip -sel clip"
+
 
 #navigation
 alias ..='cd ./..'

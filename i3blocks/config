@@ -85,8 +85,8 @@ interval=60
 label= 
 interval=30
 
-[ibm]
-interval=30
+#[ibm]
+#interval=30
 
 # CPU usage
 #
