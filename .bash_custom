@@ -1,3 +1,4 @@
+
 # define colors etc
 RESET="\[$(tput sgr0)\]"
 BOLD="\[$(tput bold)\]"
@@ -6,7 +7,8 @@ BLUE="\[$(tput setaf 4)\]"
 GREEN="\[$(tput setaf 2)\]"
 CYAN="\[$(tput setaf 6)\]"
 RED="\[$(tput setaf 1)\]"
-YELLOW="\[$(tput setaf 3)\]"
+YELLOW="\[$(tput setaf 3)\]"	# non-bold yellow is orange ??
+PURPLE="\[$(tput setaf 5)\]"
 
 # Show the last 3 dirs from pwd
 endpwd() {
@@ -37,11 +39,15 @@ endpwd() {
     echo "${startslash}$thirdFromEnd$secondFromEnd$end"
 }
 
+my_date() {
+    echo "$(date +'%M')"
+}
+
 generate_prompt() {
     if [[ ${EUID} == 0 ]] ; then # sudo prompt
         PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
     else
-        PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${CYAN}\$ ${RESET}"
+        PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${RESET}${YELLOW}$(my_date) ${BOLD}${CYAN}\$ ${RESET}"
     fi
 }
 

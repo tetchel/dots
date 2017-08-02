@@ -23,8 +23,11 @@ alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
 alias grep="grep -i --color=tty"    # I always forget
 alias df='df -h'        # human readable
 alias du='du -h'
-alias quiet=' > /dev/null 2>&1 &'
-alias quickamend="git add .; git commit --amend; git push -f"
+alias ZZ='exit' 
+alias :q='exit'
+alias disa='disown -a'
+alias fork='urxvt & >/dev/null 2>&1; disown -a'
+alias amend="git add .; git commit --amend"
 alias clip="xclip -sel clip"
 
 
@@ -50,29 +53,35 @@ alias cleanup='sudo apt-get autoremove; rm -rf ~/.local/share/Trash/*'
 alias agpurge='sudo apt-get purge'
 
 #applications
-alias n='nautilus . &'
+alias n='nemo --no-desktop . >/dev/null 2>&1 &'
 alias tweak='gnome-tweak-tool >/dev/null &>/dev/null &'
 alias cl='clementine >/dev/null &>/dev/null &'
 alias ch='~/programs/scripts/bash/chrome.sh'
 alias gv='gvim -p --remote-tab-silent'
 alias steam='steam >~/.steam/steam_log.txt &>~/.steam/steam_log.txt &'
-alias leclipse='~/eclipse/launch_eclipse >/dev/null &>/dev/null &'
 
 #docker
 alias dexec='docker exec -t -i'
 alias dps='docker ps -a'
 alias drmall='docker rm $(docker ps -a -q)'
 alias dstopall='docker stop $(docker ps -a -q)'
-alias dnew='docker run -p 8008:9080 -p 8009:9443 --name wlpTest websphere-liberty:javaee7'
+alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-liberty:latest'
+alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
 
-alias killib='sudo ~/programs/scripts/killiberty.sh'
+alias killib='sudo ~/programs/scripts/unblockport.sh 9080'
 alias vboxmnt='sudo ~/programs/scripts/vboxmnt.sh'
 
 # i3
 alias lock='~/.config/i3lock/i3lock.sh &'
 alias i3conf='~/.config/i3/config'
 alias quiti3='i3-msg exit'
+
 # Arch
 alias pmi='sudo pacman -S'
 alias pmup='sudo pacman -Syu'
 
+# git
+alias gstat='git status'
+alias gadd='git add .'
+alias gcom='git commit'
+alias gcheck='git checkout'
