@@ -29,7 +29,7 @@ alias disa='disown -a'
 alias fork='urxvt & >/dev/null 2>&1; disown -a'
 alias amend="git add .; git commit --amend"
 alias clip="xclip -sel clip"
-
+alias unbz="bzip2 -d"
 
 #navigation
 alias ..='cd ./..'
@@ -67,9 +67,6 @@ alias drmall='docker rm $(docker ps -a -q)'
 alias dstopall='docker stop $(docker ps -a -q)'
 alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-liberty:latest'
 alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
-
-alias killib='sudo ~/programs/scripts/unblockport.sh 9080'
-alias vboxmnt='sudo ~/programs/scripts/vboxmnt.sh'
 
 # i3
 alias lock='~/.config/i3lock/i3lock.sh &'

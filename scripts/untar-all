@@ -1,0 +1,2 @@
+#!/usr/bin/env sh 
+for f in ./*; do mkdir ${f%.tar}; tar -xvf $f -C ${f%.tar}; done

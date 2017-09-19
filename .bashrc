@@ -41,3 +41,5 @@ export EDITOR=/usr/bin/gvim
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
+
+export PATH="$PATH:~/programs/scripts/"
