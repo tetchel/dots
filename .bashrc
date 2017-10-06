@@ -31,7 +31,7 @@ colors() {
 	done
 }
 
-export EDITOR=/usr/bin/gvim
+export EDITOR=/usr/bin/vim
 
 [[ -f ~/.extend.bashrc ]] && . ~/.extend.bashrc
 
