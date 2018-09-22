@@ -15,3 +15,4 @@ cp -r essentials/. ~
 rm -r essentials/
 
 echo "Done"
+source ~/.bashrc
