@@ -42,4 +42,17 @@ export EDITOR=/usr/bin/vim
 
 [[ -f ~/.bash_aliases ]] && . ~/.bash_aliases
 
-export PATH="$PATH:~/programs/scripts/"
+#git_ac=/opt/local/etc/bash_completion.d/git-completion.bash
+git_ac=~/programs/clones/git-completion.bash
+#echo $git_ac
+[[ -f $git_ac ]] && . "$git_ac"
+
+export PATH="$PATH:~/bin"
+export PATH="$PATH:/opt/apache-maven-3.5.4/bin"
+#export PATH="$PATH:~/programs/microclimate"
+export PATH="$PATH:~/programs/microclimate/docker/file-watcher/idc/"
+
+export SELENIUM_BROWSER=chrome
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"

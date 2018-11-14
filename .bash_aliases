@@ -13,11 +13,11 @@ alias e='exit'
 alias s='sudo pm-suspend'
 alias su='sudo -i'
 alias o='xdg-open'
-alias ls='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-alias l='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-alias ll='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-alias la='ls -la --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
-alias lt='ls -lt --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+#alias ls='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
+alias l='ls -l'
+alias ll='ls -l'
+alias la='ls -lA'
+alias lt='ls -lt'
 alias screenoff='xset -display :0.0 dpms force off'
 alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
 alias grep="grep -i --color=tty"    # I always forget
@@ -62,11 +62,26 @@ alias steam='steam >~/.steam/steam_log.txt &>~/.steam/steam_log.txt &'
 
 #docker
 alias dexec='docker exec -t -i'
-alias dps='docker ps -a'
+alias dps='docker ps'
 alias drmall='docker rm $(docker ps -a -q)'
 alias dstopall='docker stop $(docker ps -a -q)'
+alias drmiall='docker rmi $(docker images -q)'
 alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-liberty:latest'
 alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
+alias dlogs='docker logs'
+
+# microclimate etc
+alias fwbash="dbash file-watcher"
+alias fwlogs="dlbn file-watcher"
+alias remc="cd ~/programs/microclimate; ./stop.sh; ./start.sh --dev; cd - >/dev/null"
+alias remc2="cd ~/programs/microclimate; ./stop.sh; ./run.sh --dev; cd - >/dev/null"
+alias rffw="cd ~/programs/microclimate/docker/file-watcher/server/; npm run pushLocal && echo 'RFFW success'; cd - >/dev/null"
+alias vpj="vim package.json"
+alias nrb="npm run build"
+alias ns="npm start"
+alias leclipse='/Applications/eclipse/jee-photon/Eclipse.app/Contents/MacOS/eclipse &'
+alias loginToArtf='docker login sys-mcs-docker-local.artifactory.swg-devops.com'
+alias deleteTestProjects="~/programs/fw-convinience/delete-projects.py localhost:9090 test -f"
 
 # i3
 alias lock='~/.config/i3lock/i3lock.sh &'
@@ -82,3 +97,10 @@ alias gstat='git status'
 alias gadd='git add .'
 alias gcom='git commit'
 alias gcheck='git checkout'
+alias gamend='git commit --amend --no-edit'
+alias gdiff1='git diff HEAD~1 HEAD'
+alias gcm='git checkout master && git pull origin master'
+alias gpom='git pull origin master'
+alias gdiff='git diff'
+alias gd='git diff'
+alias glog='git log'
