@@ -23,7 +23,7 @@ alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
 alias grep="grep -i --color=tty"    # I always forget
 alias df='df -h'        # human readable
 alias du='du -h'
-alias ZZ='exit' 
+alias ZZ='exit'
 alias :q='exit'
 alias disa='disown -a'
 alias fork='urxvt & >/dev/null 2>&1; disown -a'
@@ -56,7 +56,6 @@ alias agpurge='sudo apt-get purge'
 alias n='nemo --no-desktop . >/dev/null 2>&1 &'
 alias tweak='gnome-tweak-tool >/dev/null &>/dev/null &'
 alias cl='clementine >/dev/null &>/dev/null &'
-alias ch='~/programs/scripts/bash/chrome.sh'
 alias gv='gvim -p --remote-tab-silent'
 alias steam='steam >~/.steam/steam_log.txt &>~/.steam/steam_log.txt &'
 

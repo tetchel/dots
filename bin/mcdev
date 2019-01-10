@@ -1,0 +1,489 @@
+#!/bin/bash
+#*******************************************************************************
+# Licensed Materials - Property of IBM
+# "Restricted Materials of IBM"
+#
+# Copyright IBM Corp. 2018 All Rights Reserved
+#
+# US Government Users Restricted Rights - Use, duplication or disclosure
+# restricted by GSA ADP Schedule Contract with IBM Corp.
+#******************************************************************************
+
+# Global variables
+STEP_COUNT=1;
+NAME="Microclimate";
+CLI_NAME="mcdev";
+NO_DISPLAY=false;
+
+# Export variables for docker-compose substitution
+# Export HOST_OS for fix to Maven failing on Windows only as host
+export HOST_OS=$(uname);
+export ARCH=$(uname -m);
+
+# Select the right images for this architecture.
+if [ "$ARCH" == "x86_64" ]; then
+  export PLATFORM="-amd64"
+else
+  export PLATFORM="-$ARCH"
+fi
+
+# Case statment for different OS commands
+OS=$(echo ${OSTYPE} | awk '{print toupper($0)}');
+case $OS in
+  LINUX*)
+    if [ "$DISPLAY" != "" ]; then
+      OPEN_COMMAND=xdg-open;
+    else
+      NO_DISPLAY=true;
+      NO_DISPLAY_MESSAGE="No display detected.";
+    fi
+    ;;
+  DARWIN*)  OPEN_COMMAND=open ;;
+  WINDOWS*) OPEN_COMMAND=cmd /c start ;;
+  *)
+  NO_DISPLAY=true;
+  NO_DISPLAY_MESSAGE="We do not have an open command for your operating system.";
+esac
+
+# Create an array of common network interface names
+declare -a arr=('eth0' 'eth1' 'en0' 'en1')
+
+if [[ $OSTYPE == "linux-gnu" ]]; then
+  # For Linux, call: cat /sys/class/net/<INTEFACE_NAME>/address
+  for i in "${arr[@]}"; do
+    # Redirect output to /dev/null (null device) to avoid flooding the screen
+    cat /sys/class/net/$i/address > /dev/null 2>&1;
+    if [ $? == 0 ]; then
+      macAddress=$(cat /sys/class/net/$i/address);
+      break;
+    fi;
+  done
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # For Mac, call: ifconfig <INTERFACE_NAME> | awk '$1 == "ether" {print $2}'
+  for i in "${arr[@]}"; do
+    # Redirect output to /dev/null (null device) to avoid flooding the screen
+    ifconfig $i > /dev/null 2>&1;
+    if [ $? == 0 ]; then
+      macAddress=$(ifconfig $i | awk '$1 == "ether" {print $2}');
+      break;
+    fi;
+  done
+fi
+
+TELEMETRY=$(echo $macAddress$USER);
+export TELEMETRY=Desktopid-$(printf $TELEMETRY | shasum -a 1 | awk '{print $1}');
+
+# Function to show the general help text
+showHelp () {
+  echo -e "\nUsage:	${CLI_NAME} COMMAND [options]\n";
+  echo -e "Dive into a fast, incremental, end-to-end development experience that puts developers in charge\n";
+  echo "Commands:";
+  echo "  start             Start ${NAME}";
+  echo "  stop              Stop ${NAME}";
+  echo "  open              Open ${NAME} in your default browser";
+  echo "  refresh           Pull the latest images for the installed version of ${NAME}";
+  echo "                    (does not upgrade the ${NAME} version)";
+  echo "  healthcheck       Check that ${NAME} is set up correctly";
+  echo "                    and get a count of your generated projects";
+  echo "  delete            Delete all Microclimate images";
+  echo -e "\nRun '${CLI_NAME} COMMAND --help' for more information on a command.\n"
+  exit;
+}
+
+# Function to tell a user to install Microclimate again
+# Global so its easy to change the error message later
+printInstallError() {
+  echo -e "\nRun install again before using ${NAME} to ensure you don't run into issues.\n";
+}
+
+# Function to print out the current step and increment
+#     takes the step message as the first arg
+printStep () {
+  sleep 1;
+  echo -e "\nStep ${STEP_COUNT}: ${1}";
+  STEP_COUNT=$(($STEP_COUNT+1));
+}
+
+# Function to start Microclimate by running 'docker-compose up -d'
+#   The '-d' runs it in the background
+#   Options
+#       -o, start and open Microclimate in the browser
+#       -u, update Microclimate before running
+start () {
+  OPEN=false;
+  UPDATE=false;
+  # If anything but a blank string or valid options show help
+  # As we only have two options we can cover multiple commands
+  # In the future we should have a while loop sort this for us
+  case "$1" in
+    "")
+      ;;
+    -o|--open)
+      OPEN=true;
+      ;;
+    -u|--update)
+      UPDATE=true;
+      ;;
+    -ou|-uo|-o-u|-u-o)
+      OPEN=true;
+      UPDATE=true;
+      ;;
+    *|help|--help|-h)
+      echo -e "\nUsage:	${CLI_NAME} start [OPTIONS]";
+      echo -e "\nStart ${NAME}";
+      echo -e "\nOptions:";
+      echo -e "  -o, --open        Open ${NAME} after starting.";
+      echo -e "  -u, --update      Update ${NAME} before starting.\n";
+      exit;
+      ;;
+  esac
+  if [ ${UPDATE} = true ]; then
+    update;
+  fi
+
+  echo -e "\nStarting ${NAME}\n";
+  docker-compose up -d;
+  if [ $? -eq 0 ]; then
+    PORTAL_PORT=$(docker inspect --format='{{range $p, $conf :=.NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' microclimate-portal);
+    echo -e "\n${NAME} has been started at http://localhost:${PORTAL_PORT}\n";
+    if [ ${OPEN} = true ]; then
+      if $NO_DISPLAY; then
+        echo -e "$NO_DISPLAY_MESSAGE The command '$CLI_NAME start -o' is not available.\n";
+        exit;
+      else
+        openMicroclimate;
+      fi
+    fi
+
+  else
+    echo -e "\nError starting ${NAME}\n";
+    exit 1;
+  fi
+}
+
+# Function to stop Microclimate by running 'docker-compose down'
+stop () {
+  case "$1" in
+    "")
+      ERRORS=$((0));
+      # Running is false until we've actually found something running
+      RUNNING=false;
+      echo -e "\nStopping ${NAME}\n";
+      # Remove all containers from microclimate_network
+      NETWORK='microclimate_network';
+      for i in ` docker ps -q --filter "network=${NETWORK}"`;
+        do
+           docker network disconnect -f ${NETWORK} $i;
+           if [ ! $? -eq 0 ]; then
+             ERRORS=$((ERRORS+1));
+             echo "Error removing container $i from the network.";
+             echo "Attempting to continue with stop.";
+           fi
+        done;
+        # Remove all containers from microclimate_default network
+        NETWORK='microclimate_default';
+        for i in ` docker ps -q --filter "network=${NETWORK}"`;
+          do
+             docker network disconnect -f ${NETWORK} $i;
+             if [ ! $? -eq 0 ]; then
+               ERRORS=$((ERRORS+1));
+               echo "Error removing container $i from the network.";
+               echo "Attempting to continue with stop.";
+             fi
+        done;
+      # Now remove all docker-compose containers and network
+      # Get ID of Miroclimate process
+      ID=$(docker ps -q --filter "name=microclimate-portal");
+      if [ "$ID" != "" ]; then
+        # If process is running then we will have its ID now
+        # docker inspect returns true if its running
+        CHECK=$(docker inspect -f {{.State.Running}} $ID);
+        if [ "${CHECK}" == "true" ]; then
+          # If atleast one of the microclimate containers are running, run the stop script
+          echo -e "Stopping and removing $NAME containers from Docker.\n";
+          RUNNING=true;
+          docker-compose down;
+          if [ ! $? -eq 0 ]; then
+            ERRORS=$((ERRORS+1));
+            echo "Error stopping main ${NAME} containers.";
+            echo -e "Attempting to continue with stop.\n";
+          fi
+        fi
+      # If last element is not found then Microclimate is not running
+      fi
+
+      # Finish by stopping and removing other Microclimate containers (the projects)
+      NUMBER_OF_PROCESSES=$(docker ps -a -q  --filter name=mc- | wc -l);
+      if [ $NUMBER_OF_PROCESSES -gt 0 ]; then
+        echo -e "\nStopping your $NAME project containers.";
+        RUNNING=true;
+        # >/dev/null 2>/dev/null stops output being printed
+        docker rm -f $(docker ps -a -q  --filter name=mc-) >/dev/null 2>/dev/null;
+        if [ $? -eq 0 ]; then
+          echo -e "Successfully stopped your $NAME project containers.\n"
+        else
+          ERRORS=$((ERRORS+1));
+          echo -e "Error while stopping project containers.\n";
+          echo -e "Attempting to continue with stop.\n";
+        fi
+      fi
+      # If network is running remove it
+      NETWORK_CHECK=$(docker network ls -q --filter name=microclimate_network);
+      if [ "$NETWORK_CHECK" != "" ]; then
+        echo -e "Removing the microclimate network.";
+        RUNNING=true;
+        docker network rm microclimate_network >/dev/null 2>/dev/null;
+        if [ $? -eq 0 ]; then
+          echo -e "Successfully removed the microclimate network.\n"
+        else
+          ERRORS=$((ERRORS+1));
+          echo -e "Error whilst removing the microclimate network.\n";
+        fi
+      fi
+
+      # Final user feedback
+      if [ "${RUNNING}" == "false" ]; then
+        # If we haven't found anything running alert the user
+        echo -e "${NAME} is not running.\n";
+      elif [ ${ERRORS} -eq 0 ]; then
+        echo -e "${NAME} has been stopped.\n";
+      else
+        # Display errors if there were any
+        echo -e "Error stopping ${NAME}.\nError count: ${ERRORS}\n";
+      fi
+      ;;
+    *|help|--help|-h)
+      echo -e "\nUsage:	${CLI_NAME} stop";
+      echo -e "\nClose ${NAME}\n";
+      exit;
+      ;;
+  esac
+}
+
+# Function to open Microclimate in the default browser
+#   - Will need different commands for different OS's
+openMicroclimate () {
+  case "$1" in
+    "")
+      if $NO_DISPLAY; then
+        echo -e "\n$NO_DISPLAY_MESSAGE The command '$CLI_NAME open' is not available.\n";
+        exit;
+      fi
+      CHECK=$(docker ps -q  --filter name=microclimate-portal | wc -l);
+      if [ $CHECK -gt 0 ]; then
+        # Get port for portal container (Allows it to be dynamic in future)
+        PORTAL_PORT=$(docker inspect --format='{{range $p, $conf :=.NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' microclimate-portal);
+        URL="http://localhost:${PORTAL_PORT}";
+
+        # Only launch Microclimate page when it is succesfully curled with a response of 200
+        count=0;
+        until  curl -s --head ${URL} | head -n 1 | grep "HTTP/1.[01] [23].." > /dev/null
+        do
+          echo "Waiting for Microclimate to start"
+          sleep 1
+          count=$((count + 1))
+          # If Microclimate has still not started after 30 seconds, exit
+          if [ $count -gt 30 ]
+          then
+            echo -e "Microclimate has not started after 30 seconds. Exiting.";
+            exit;
+          fi
+        done
+        $OPEN_COMMAND $URL;
+      else
+        echo -e "\n${NAME} is not running\n"
+        echo -e "Use the command '${CLI_NAME} start -o' to start and open Microclimate.\n"
+      fi
+      ;;
+    *|help|--help|-h)
+      echo -e "\nUsage:	${CLI_NAME} open";
+      echo -e "\nOpen ${NAME} in your default browser\n";
+      exit;
+      ;;
+  esac
+}
+
+
+# Function to pull images down from the repository
+refresh () {
+  # If anything but a blank string show help
+ case "$1" in
+   "")
+     echo -e "\nRefreshing ${NAME}\n";
+     docker-compose pull --parallel;
+     if [ $? -eq 0 ]; then
+       TAG=$(cat .env | grep TAG | cut -d "=" -f2)
+       echo -e "\n${NAME} is up to date at level: ${TAG}\n";
+     else
+       echo -e "\nError updating ${NAME}\n";
+     fi
+     ;;
+   *|help|--help|-h)
+     echo -e "\nUsage:	${CLI_NAME} refresh";
+     echo -e "\nPull the latest images for the installed version of ${NAME} (does not upgrade the ${NAME} version)\n";
+     exit;
+     ;;
+ esac
+}
+
+# Function to check directory layouts, config files and permissions
+healthCheck () {
+  # If anything but a blank string show help
+  case "$1" in
+    "")
+      echo -e "\nConducting a health check on ${NAME}.";
+      DIRECTORY="${HOME}/microclimate-workspace";
+      CONFIG_DIRECTORY="${DIRECTORY}/.config";
+      GIT_CONFIG="${CONFIG_DIRECTORY}/git.config";
+      # Check workspace exists
+      printStep "Checking microclimate-workspace existence";
+      if [ -d ${DIRECTORY} ]; then
+        echo "Success: '${DIRECTORY}' directory exists.";
+      else
+        echo "Error: '${DIRECTORY}' directory does not exist.";
+        printInstallError;
+        exit;
+      fi
+      # Check workspace permissions
+      printStep "Checking the workspace permissions";
+      ls -ld ${DIRECTORY} | grep -q drwxrwxrwx
+      if [ $? -eq 0 ]; then
+        echo "Success: '${DIRECTORY}' directory permissions correct.";
+      else
+        echo "Error: '${DIRECTORY}' directory permissions incorrect.";
+      fi
+      # Check config exists
+      printStep "Checking .config existence";
+      if [ -d ${CONFIG_DIRECTORY} ]; then
+        echo "Success: '${CONFIG_DIRECTORY}' directory exists.";
+      else
+        echo "Error: '${CONFIG_DIRECTORY}' directory does not exist.";
+      printInstallError;
+      exit;
+      fi
+      # Check permissions
+      printStep "Checking the .config permissions";
+      ls -ld ${CONFIG_DIRECTORY} | grep -q drwxrwxrwx
+      if [ $? -eq 0 ]; then
+        echo "Success: '${CONFIG_DIRECTORY}' directory permissions correct.";
+      else
+        echo "Error: '${CONFIG_DIRECTORY}' directory permissions incorrect.";
+      fi
+      # Check git file exists
+      printStep "Checking git file existence";
+      if [ -f ${GIT_CONFIG} ]; then
+        echo "Success: '${GIT_CONFIG}' file exists.";
+      else
+        echo "Error: '${GIT_CONFIG}' file does not exist.";
+        printInstallError;
+      fi
+      # Print the git file instead of checking it as the user may have altered it
+      printStep "Printing git file contents.\nCheck to ensure this matches what you expect";
+      echo -e "\n--- File start. ---\n";
+      cat ${GIT_CONFIG};
+      echo -e "\n--- File end. ---\n";
+      # Display a count of projects in the users workspace
+      printStep "Current number of projects in your workspace";
+      cd ${DIRECTORY};
+      TOTAL=$(find . -maxdepth 1 -not -name ".*" | wc -l);
+      if [ ${TOTAL} -eq 0 ]; then
+        echo "You have 0 projects in your workspace.";
+      else
+        TOTAL=$(echo "${TOTAL}" | awk '$1=$1');
+        S='s';
+        if [ ${TOTAL} -eq 1 ]; then
+        S='';
+        fi
+        echo "You have ${TOTAL} project${S} in your workspace.";
+      fi
+      # End health check
+      echo -e "\nHealth check completed.\n";
+    ;;
+    *|help|--help|-h)
+      echo -e "\nUsage:	${CLI_NAME} healthcheck";
+      echo -e "\nChecks directory layouts, config files and permissions for your ${NAME} workspace.\n";
+      exit;
+    ;;
+  esac
+}
+
+# Function to delete Microclimate images
+delete () {
+  case "$1" in
+    "")
+    stop;
+    echo -e "\nDeleting ${NAME} Docker images\n";
+    DOCKER_IMAGES="docker images -q --filter reference=microclimate*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    DOCKER_IMAGES="docker images -q --filter reference=sys-mcs-docker-local.artifactory.swg-devops.com/microclimate*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    DOCKER_IMAGES="docker images -q --filter reference=ibmcom/microclimate*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    echo -e "\nDeleting ${NAME} docker images\n";
+    DOCKER_IMAGES="docker images -q --filter reference=mc-*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    DOCKER_IMAGES="docker images -q --filter reference=sys-mcs-docker-local.artifactory.swg-devops.com/mc-*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    DOCKER_IMAGES="docker images -q --filter reference=ibmcom/mc-*";
+    NUMBER_OF_IMAGES=$($DOCKER_IMAGES | wc -l);
+    if [ $NUMBER_OF_IMAGES -gt 0 ]; then
+      docker rmi -f $($DOCKER_IMAGES);
+    fi
+
+    ;;
+    *|help|--help|-h)
+      echo -e "\nUsage:	${CLI_NAME} delete";
+      echo -e "\nDelete ${NAME} images\n";
+      exit;
+      ;;
+  esac
+}
+
+# Run script starts here:
+
+# Move to directory of this file
+cd $(dirname $0);
+# Check if symlink
+test -L $0;
+if [ $? -eq 0 ]; then
+  # change directory to location of symlinked file
+  cd $(dirname $(readlink mcdev | head -1));
+fi
+
+# case statement to run functions above
+case "$1" in
+  start)
+    start "${@:2}";;
+  stop)
+    stop "${@:2}";;
+  open)
+    openMicroclimate "${@:2}";;
+  refresh)
+    refresh "${@:2}";;
+  healthcheck)
+    healthCheck "${@:2}";;
+  delete)
+    delete "${@:2}";;
+  *|help)
+    showHelp;;
+esac

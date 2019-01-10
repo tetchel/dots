@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [[ ! "$1" ]]; then
+    echo "Usage: dlbn \$container_name"
+    exit 1
+fi
+
+result=$(dcbn "$1")
+
+if [[ ! "$result" ]]; then
+    exit 1
+else
+    docker logs "$result"
+fi

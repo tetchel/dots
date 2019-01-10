@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ "$1" ]]; then
+    containerid=$(dcbn "$1")
+    echo "Connecting to $containerid"
+    docker exec -i -t "$containerid" /bin/bash
+else
+    echo "Usage: dbash \$container_name"
+fi
+

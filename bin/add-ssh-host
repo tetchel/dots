@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+alias=$1
+user=$2
+hostname=$3
+port=$4
+
+if [[ -z $alias || -z $user || -z $hostname ]]; then
+    echo "Usage: $(basename $0) \$alias \$user \$hostname [\$port]"
+    exit 1
+fi
+
+set -e
+
+u_at_h=${user}@${hostname}
+if [[ -n $port ]]; then
+    u_at_h=${u_at_h}:${port}
+fi
+
+echo "Adding host $alias = $u_at_h"
+
+new_host="Host $alias
+    User $user
+    HostName $hostname
+"
+echo "$new_host" >> ~/.ssh/config
+
+echo "Success, connect to your new host with: ssh $alias"

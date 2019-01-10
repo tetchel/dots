@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+fw=$(dcbn file-watcher)
+if [[ ! "$fw" ]]; then
+    echo "Filewatcher not running"
+    exit 1
+fi
+docker cp ./dist "$fw:/server"
+echo "Copied ./dist to $fw:/server"

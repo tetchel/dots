@@ -44,11 +44,13 @@ my_date() {
 }
 
 generate_prompt() {
+    prompt="\$"
+    prompt_color="${CYAN}"
     if [[ ${EUID} == 0 ]] ; then # sudo prompt
-        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-    else
-        PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${RESET}${YELLOW}$(my_date) ${BOLD}${CYAN}\$ ${RESET}"
+        prompt="#"
+        prompt_color="${RED}"
     fi
+    PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${RESET}${YELLOW}$(my_date) ${BOLD}$prompt_color$prompt ${RESET}"
 }
 
 PROMPT_COMMAND=generate_prompt

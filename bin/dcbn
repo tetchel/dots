@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [[ ! "$1" ]]; then
+    echo "Usage: dcbn \$container_name"
+    exit 1
+fi
+
+result=$(docker ps | grep "$1" | awk '{print $1}')
+
+if [[ ! "$result" ]]; then
+    echo "No running container with name containing \"$1\""
+else
+    echo $result
+fi
