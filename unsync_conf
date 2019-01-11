@@ -2,8 +2,12 @@
 
 # make sure working directory is 'dots' repo root
 \cp -rf .bashrc .bash_aliases .bash_custom .vimrc .Xresources .Xdefaults .ncmpcpp/ ~
-\cp -rf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ ~/.config
-
 mkdir -p ~/bin ~/programs ~/pictures
 \cp -rf bin/ ~/bin/
-\cp -rf walls/ ~/pictures/
+
+if [[ "$1" == "gui" ]]; then
+    \cp -rf walls/ ~/pictures/
+    \cp -rf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ ~/.config
+else
+    echo "Not unsyncing gui files"
+fi
