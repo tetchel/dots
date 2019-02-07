@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+no_beeps=$1
+if [[ -z "$no_beeps" ]];then
+    no_beeps=5;
+fi
+delay=$2
+if [[ -z "$delay" ]];then
+    delay=0.25;
+fi
+
+for i in $(seq $no_beeps); do
+    echo -ne '\007'
+    sleep $delay
+done
+

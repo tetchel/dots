@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+title=$1
+if [[ -z "$title" ]]; then
+    title="Notification"
+fi
+text=$2
+#if [[ -z "$text" ]]; then
+#    text="Notification"
+#fi
+
+# https://apple.stackexchange.com/questions/57412/how-can-i-trigger-a-notification-center-notification-from-an-applescript-or-shel
+osascript -e "display notification \"$text\" with title \"$title\" sound name \"Glass\"" 

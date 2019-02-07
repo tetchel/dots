@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+portal_pod=$(k get pods -n default | grep microclimate-ibm-microclimate | grep -v "atrium\|devops" | cut -d' ' -f1)
+k logs -n default $portal_pod

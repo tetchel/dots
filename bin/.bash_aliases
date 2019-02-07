@@ -70,6 +70,10 @@ alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-lib
 alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
 alias dlogs='docker logs'
 
+# kube
+alias kgp="kubectl get pods"
+alias kg="kubectl get"
+
 # microclimate etc
 alias fwbash="dbash file-watcher"
 alias fwlogs="dlbn file-watcher"

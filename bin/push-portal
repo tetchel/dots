@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -ex
+
+microclimate_dir=~/programs/microclimate/
+microclimate_icp_dir=~/programs/clones/microclimate-icp
+cluster=mycluster.icp
+
+cd "${microclimate_dir}/docker/portal/" 
+./build Dockerfile_x86_64 
+cd - 
+docker tag microclimate-portal-amd64 ${cluster}:8500/default/microclimate-portal-amd64 
+docker push ${cluster}:8500/default/microclimate-portal-amd64 
+
+set +e
+h delete --purge microclimate 
+set -e
+
+cd "$microclimate_icp_dir"
+k delete -f pv.yaml 
+k create -f pv.yaml 
+h install --name microclimate -f dev-overrides-amd64.yaml --namespace default stable/ibm-microclimate
+cd -
