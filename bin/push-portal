@@ -6,18 +6,36 @@ microclimate_dir=~/programs/microclimate/
 microclimate_icp_dir=~/programs/clones/microclimate-icp
 cluster=mycluster.icp
 
-cd "${microclimate_dir}/docker/portal/" 
-./build Dockerfile_x86_64 
-cd - 
-docker tag microclimate-portal-amd64 ${cluster}:8500/default/microclimate-portal-amd64 
-docker push ${cluster}:8500/default/microclimate-portal-amd64 
+cd "${microclimate_dir}/docker/portal/"
+chmod a+x ./build
+./build Dockerfile_x86_64
+cd -
+docker tag microclimate-portal-amd64 ${cluster}:8500/default/microclimate-portal-amd64
+docker push ${cluster}:8500/default/microclimate-portal-amd64
 
-set +e
-h delete --purge microclimate 
-set -e
+set +ex
+#h delete --purge microclimate
+del_result=$(h delete --purge --no-hooks microclimate)
+if [[ "$del_result" == 'release "microclimate" deleted' ]]; then
+    echo "Giving PV some time to delete"
+    sleep 15
+fi
+set -ex
 
 cd "$microclimate_icp_dir"
-k delete -f pv.yaml 
-k create -f pv.yaml 
-h install --name microclimate -f dev-overrides-amd64.yaml --namespace default stable/ibm-microclimate
+
+set +ex
+if [[ "$1" == "pv" ]]; then
+    echo "Recreating PV"
+
+    k delete -f pv.yaml --grace-period=0
+    k create -f pv.yaml
+else
+    echo "Not recreating PV"
+fi
+set -ex
+
+h install --name microclimate -f dev-overrides-amd64.yaml --namespace default --set global.rbac.serviceAccountName=micro-sa,jenkins.rbac.serviceAccountName=pipeline-sa ibm-charts/ibm-microclimate
 cd -
+
+$(dirname $0)/notify "Done pushing portal image to $cluster"

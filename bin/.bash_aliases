@@ -20,7 +20,7 @@ alias la='ls -lA'
 alias lt='ls -lt'
 alias screenoff='xset -display :0.0 dpms force off'
 alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
-alias grep="grep -i --color=tty"    # I always forget
+#alias grep="grep -i --color=tty"    # I always forget
 alias df='df -h'        # human readable
 alias du='du -h'
 alias ZZ='exit' 
@@ -69,10 +69,6 @@ alias drmiall='docker rmi $(docker images -q)'
 alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-liberty:latest'
 alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
 alias dlogs='docker logs'
-
-# kube
-alias kgp="kubectl get pods"
-alias kg="kubectl get"
 
 # microclimate etc
 alias fwbash="dbash file-watcher"

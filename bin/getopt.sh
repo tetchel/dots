@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Put this at the top of a bash script for easy configuring of set -x and set -e
+# Using -v and -e flags
+
 while getopts "ve" o; do
     case "${o}" in
         v)
@@ -16,11 +19,8 @@ done
 shift $((OPTIND-1))
 
 if [[ -n "$sete" ]]; then
-   set -e 
+   set -e
 fi
 if [[ -n "$setx" ]]; then
     set -x
 fi
-
-portal_pod=$(k get pods -n default | grep microclimate-ibm-microclimate | grep -v "atrium\|devops\|editor\|filewatcher\|loadrunner" | cut -d' ' -f1)
-k logs -n default $portal_pod

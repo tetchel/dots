@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
 if [[ ! "$1" ]]; then
-    echo "Usage: dcbn \$container_name"
-    exit 1
+    result=$(docker ps -q)
+    if [[ -z $result ]]; then
+        echo "No running container"
+        exit 1
+    elif [[ "$(echo $result | wc -w)" -gt 1 ]]; then
+        echo "Multiple running containers, \$1 must be the container name"
+        exit 1
+    fi
+else
+    result=$(docker ps | grep "$1" | awk '{print $1}')
 fi
 
-result=$(docker ps | grep "$1" | awk '{print $1}')
 
 if [[ ! "$result" ]]; then
     echo "No running container with name containing \"$1\""

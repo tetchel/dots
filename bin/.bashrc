@@ -47,12 +47,16 @@ git_ac=~/programs/clones/git-completion.bash
 #echo $git_ac
 [[ -f $git_ac ]] && . "$git_ac"
 
+# PATH additions
 export PATH="$PATH:~/bin"
 export PATH="$PATH:/opt/apache-maven-3.5.4/bin"
 #export PATH="$PATH:~/programs/microclimate"
 export PATH="$PATH:~/programs/microclimate/docker/file-watcher/idc/"
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export PATH="$PATH:/Users/tim/.microclimate"
 
 export SELENIUM_BROWSER=chrome
+export MC_ICP_URL="https://microclimate.9.20.200.123.nip.io"
 set editing-mode vi
 
 export NVM_DIR="$HOME/.nvm"
@@ -61,7 +65,5 @@ export NVM_DIR="$HOME/.nvm"
 # added by travis gem
 [ -f /Users/tim/.travis/travis.sh ] && source /Users/tim/.travis/travis.sh
 source <(kubectl completion bash)
-
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
