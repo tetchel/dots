@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [[ -z $1 ]]; then
+    echo "\$1 must be partial pod name"
+    exit 1
+fi
+
+pod="$1"
+shift
+
+pods="$(k get po $@)"
+
+echo "$pods" | grep "$pod" | awk '{ print $1 }'

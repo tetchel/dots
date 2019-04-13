@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+usage() {
+    echo "Usage: $(basename $0) [\$namespace]"
+    echo "If no namespace is passed, 'default' is used"
+}
+
+if [[ $1 == *"help" ]]; then
+    usage
+    exit 0
+fi
+
+namespace="$1"
+if [[ -z $namespace ]]; then
+    namespace="default"
+fi
+
+echo "Using namespace $namespace"
+running="$(kubectl get po -n ${namespace} 2>&1)"
+if [[ $running == "No resources found"* ]]; then
+    echo "No pods to kill"
+    exit 0
+fi
+
+set -x
+kubectl delete pods -n ${namespace} --all --force --grace-period=0
+set +x
+
+while :; do
+    running="$(kubectl get po -n ${namespace} 2>&1)"
+    if [[ $running == "No resources found"* ]]; then
+        echo "All pods are gone!"
+        exit 0
+    else
+        pods="$(echo "$running" | awk '{ print $1 }' | tail -n +2)"
+        printf "[$(date +'%T')] Pods still running:\n$pods\n"
+        sleep 5
+    fi
+done
