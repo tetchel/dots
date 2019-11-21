@@ -1,18 +1,25 @@
 #!/usr/bin/env bash
 
 # Quickly downloads my most important files for any linux system
-# Run with: curl -s https://raw.githubusercontent.com/tetchel/dots/master/essentials.sh | bash
+# Run with: curl -fsSL https://raw.githubusercontent.com/tetchel/dots/master/essentials.sh | bash
+
+download () {
+    local url=$1
+    local outfile=$(basename $url)
+
+    echo "Downloading $outfile"
+    curl -fsSL "$url" -o "essentials/$outfile"
+}
 
 mkdir essentials
-echo "Downloading..."
-curl -s https://raw.githubusercontent.com/tetchel/dots/master/.bash_aliases > ./essentials/.bash_aliases
-curl -s https://raw.githubusercontent.com/tetchel/dots/master/.bash_custom > ./essentials/.bash_custom 
-# Might want to change the EDITOR line from gvim to vim
-curl -s https://raw.githubusercontent.com/tetchel/dots/master/.bashrc > ./essentials/.bashrc 
-curl -s https://raw.githubusercontent.com/tetchel/dots/master/.extend.bashrc > ./essentials/.extend.bashrc
-curl -s https://raw.githubusercontent.com/tetchel/dots/master/.vimrc > ./essentials/.vimrc
+
+download https://raw.githubusercontent.com/tetchel/dots/master/.bash_aliases
+download https://raw.githubusercontent.com/tetchel/dots/master/.bash_custom
+download https://raw.githubusercontent.com/tetchel/dots/master/.bashrc
+download https://raw.githubusercontent.com/tetchel/dots/master/.extend.bashrc
+download https://raw.githubusercontent.com/tetchel/dots/master/.vimrc
+
 cp -r essentials/. ~
-rm -r essentials/
+rm -r essentials
 
 echo "Done"
-source ~/.bashrc
