@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 #default_ns="default"
-default_ns="che"
+#default_ns="che"
 
 # use default_ns unless one was passed
-if [[ "$@" == *"-n "* || "$@" == *"--namespace "* || "$@" == *"--all-namespaces"* ]]; then
+#if [[ "$@" == *"-n "* || "$@" == *"--namespace "* || "$@" == *"--all-namespaces"* ]]; then
     kubectl $@
-else
+#else
     # echo "$(basename $0): Using -n default"
-    kubectl -n $default_ns $@
-fi
+#    kubectl -n $default_ns $@
+#fi

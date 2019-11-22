@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -ex 
+mkdir -p pngs 
+
+for f in *.svg; do 
+    rsvg-convert -h 16 $f > ${f%.*}.png 
+done 
+
+mv *.png pngs

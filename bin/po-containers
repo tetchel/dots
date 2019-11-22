@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+kubectl get po $@ -o jsonpath={.spec.containers[*].name}
+echo

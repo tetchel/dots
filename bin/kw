@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+resource="all"
+if [[ -n $1 ]]; then
+    resource=$1
+fi
+
+shift
+
+while true; do
+    echo "kubectl get $resource @ $(date +'%R:%S')"
+    kubectl get $resource $@
+    sleep 5
+    clear
+done

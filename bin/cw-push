@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+# This script builds PFE, builds the sidecar image, pushes the sidecar image and PFE to a docker registry.
+# Then, it copies your devfile and metayamls to a file-hosting server to point to the newly built images.
+
+set -e
+
+skip_build_arg="skip_build"
+
+##### CONFIGURATION
+# abspath to cloned codewind repo
+codewind_dir=~/programs/codewind/
+# abspath to cloned sidecar repo
+che_plugin_dir=~/programs/codewind-che-plugin
+
+# Info about your docker registry
+registry="timetchells"
+tag="latest"
+img="pfe"
+registry_tag=${registry}/${img}:${tag}
+escaped_registry_tag=${registry}/${img}\:${tag}
+
+# Info about your remote VM which hosts the devfile and metayamls
+# Must have ssh keys set up to skip password prompt:
+# - ssh-keygen -t rsa -b 4096 -f ~/.ssh/my-vm-rsa
+# - ssh-copy-id -i ~/.ssh/my-vm-rsa.pub user@vm
+# - ssh-add ~/.ssh/my-vm-rsa
+# - (optional) Edit ~/.ssh/config to add an alias for user@yourvm
+# ssh hostname to scp devfiles and metayamls to, eg root@myvm.rtp.raleigh.ibm.com, or an ssh host alias
+file_host="nix"
+file_host_full="time-nix.rtp.raleigh.ibm.com"
+
+# Path on file_host to scp to which is publically viewable
+# EG my plugins are SCP'd to $file_host:~/share/plugins which is then publically viewable as $file_host_full/plugins/
+file_host_path="~/share"
+plugins_subdir="plugins/codewind/"
+file_host_plugins_subdir="${file_host_path}/${plugins_subdir}"
+# Full (inter|intra)net hostname of file_host to prepend to yaml urls in devfile
+#####
+
+build_pfe() {
+    set +x
+    if [[ $1 == $skip_build_arg ]]; then
+        echo "skipping build"
+        return 0
+    fi
+    set -x
+    cd "${codewind_dir}/src/${img}/"
+    chmod a+x ./build
+    ./build Dockerfile_x86_64
+    docker tag codewind-${img}-amd64:${tag} ${registry_tag}
+    docker push ${registry_tag}
+    cd -
+}
+
+build_publish_sidecar() {
+    # Replace line 88 with the new image name; this is kind of gross because it is so fragile.
+    sed -i '' "88s|.*|        image: ${escaped_registry_tag}|" "codewind-che-sidecar/scripts/kube/codewind_template.yaml"
+
+    set +x
+    if [[ $1 != $skip_build_arg ]]; then
+        echo "skipping build"
+        set -x
+        scripts/build.sh
+    fi
+    set -x
+
+    scripts/publish.sh ${registry} ${tag}
+}
+
+push_yamls() {
+    ssh $file_host mkdir -p "$file_host_plugins_subdir"
+    scp -r publish/codewind-sidecar/ "${file_host}:${file_host_plugins_subdir}"
+    scp -r publish/codewind-theia/ "${file_host}:${file_host_plugins_subdir}"
+
+    new_devfile="devfiles/latest/devfile_new.yaml"
+    cp devfiles/latest/devfile.yaml $new_devfile
+    # Replace github domain name and partial path with file host eg
+    # /codewind-sidecar/latest/meta.yaml
+    # -> https://nix.rtp.raleigh.ibm.com/codewind-sidecar/latest/meta.yaml
+    # for both the sidecar and theia plugins
+    github_partial_url="https://raw.githubusercontent.com/eclipse/codewind-che-plugin/master/plugins/codewind/"
+    sed -i '' "s|${github_partial_url}|http://${file_host_full}/${plugins_subdir}|g" $new_devfile
+    scp $new_devfile ${file_host}:${file_host_path}/devfile.yaml
+
+    echo "Devfile is at http://${file_host_full}/devfile.yaml"
+}
+
+set -x
+
+build_pfe $1
+
+cd "$che_plugin_dir/"
+build_publish_sidecar $1
+
+#push_yamls
+
+set +x
+
+if [[ -x $(command -v notify) ]]; then
+    notify "cw-push finished"
+fi
+
+cd -

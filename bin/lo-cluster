@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export CLUSTER_IP=$(kubectl get services --namespace ingress-nginx -o jsonpath='{.items[*].spec.clusterIP}') \
+    && echo $CLUSTER_IP \
+    && sudo ifconfig lo0 alias $CLUSTER_IP

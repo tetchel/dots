@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+kubectl get configmap oauth-client-map -n services -o jsonpath="{.data.MASTER_IP}"

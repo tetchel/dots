@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if [[ -z $1 ]]; then
-    echo "\$1 must be partial pod name"
-    exit 1
+    k get po
+    exit 0
 fi
 
 pod="$1"

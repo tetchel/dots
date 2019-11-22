@@ -5,4 +5,4 @@ if [[ -z "$namespace" ]]; then
     namespace="default"
 fi
 
-k config set-context $(k config current-context) --namespace="$namespace"
+kubectl config set-context $(k config current-context) --namespace="$namespace"
