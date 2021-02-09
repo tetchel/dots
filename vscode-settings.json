@@ -1,0 +1,143 @@
+{
+    "vim.handleKeys": {
+        "<C-d>": true,
+        "<C-v>": false,
+    },
+
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        },
+        {
+            "before": [ "<Up>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Down>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Left>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Right>" ],
+            "after": [ "<Noop>" ]
+        },
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [ "h" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ ";" ],
+            "after": [ "l" ]
+        },
+        {
+            "before": [ "l" ],
+            "after": [ "h" ]
+        },
+        {
+            "before": [ "<Up>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Down>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Left>" ],
+            "after": [ "<Noop>" ]
+        },
+        {
+            "before": [ "<Right>" ],
+            "after": [ "<Noop>" ]
+        },
+    ],
+
+    "workbench.editor.enablePreview": false,
+    "workbench.list.openMode": "doubleClick",
+    "editor.minimap.enabled": false,
+    "window.restoreWindows": "none",
+    "breadcrumbs.enabled": true,
+    "window.nativeTabs": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "window.zoomLevel": 0,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.renderWhitespace": "none",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "workbench.startupEditor": "welcomePage",
+    "typescript.tsserver.log": "verbose",
+    "workbench.sideBar.location": "left",
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "editor.multiCursorModifier": "alt",
+    "git.alwaysSignOff": true,
+    "files.exclude": {
+        ".extensions": true,
+        ".idc": true,
+        ".logs": true,
+        ".projects": true,
+        "*.tsbuildinfo": true,
+        "**/*.d.ts.map": true,
+        "**/*.js.map": true
+    },
+    "editor.accessibilitySupport": "off",
+    "gitlens.hovers.currentLine.over": "line",
+    "terminal.integrated.fontFamily": "Menlo",
+    "workbench.editor.showTabs": true,
+    "workbench.tree.indent": 11,
+    "debug.onTaskErrors": "abort",
+    "search.exclude": {
+        "*.js.map": true,
+        "dist/**": true,
+        "out/**": true
+    },
+    "explorer.autoReveal": false,
+    "java.semanticHighlighting.enabled": true,
+    "typescript.format.semicolons": "insert",
+    "typescript.preferences.quoteStyle": "single",
+    "go.formatTool": "goimports",
+    "vs-kubernetes": {
+        "vs-kubernetes.minikube-path.mac": "/Users/tim/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+    },
+    "latex-workshop.view.pdf.viewer": "tab",
+    "java.configuration.runtimes": [
+
+    ],
+    "css.lint.float": "warning",
+    "css.lint.duplicateProperties": "warning",
+    "css.lint.zeroUnits": "warning",
+    "javascript.preferences.quoteStyle": "single",
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        // Optional: Disable snippets, as they conflict with completion ranking.
+        "editor.snippetSuggestions": "none",
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+    "gopls": {
+        // Add parameter placeholders when completing a function.
+        "usePlaceholders": true,
+
+        // If true, enable additional analyses with staticcheck.
+        // Warning: This will significantly increase memory usage.
+        "staticcheck": false,
+    },
+    "python.languageServer": "Microsoft",
+    "gitlens.mode.active": "zen"
+}
