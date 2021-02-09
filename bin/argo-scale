@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+replicas=$1
+
+echo "Scaling argo to $replicas replica(s)"
+
+set -x
+
+kubectl -n argocd scale statefulset/argocd-application-controller --replicas $replicas
+kubectl -n argocd scale deployment/argocd-dex-server --replicas $replicas
+kubectl -n argocd scale deployment/argocd-repo-server --replicas $replicas
+kubectl -n argocd scale deployment/argocd-server --replicas $replicas
+kubectl -n argocd scale deployment/argocd-redis --replicas $replicas

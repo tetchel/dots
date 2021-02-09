@@ -2,6 +2,68 @@
 # ~/.bashrc
 #
 
+###-begin-npm-completion-###
+#
+# npm command completion script
+#
+# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
+# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
+#
+
+if type complete &>/dev/null; then
+  _npm_completion () {
+    local words cword
+    if type _get_comp_words_by_ref &>/dev/null; then
+      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
+    else
+      cword="$COMP_CWORD"
+      words=("${COMP_WORDS[@]}")
+    fi
+
+    local si="$IFS"
+    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
+                           COMP_LINE="$COMP_LINE" \
+                           COMP_POINT="$COMP_POINT" \
+                           npm completion -- "${words[@]}" \
+                           2>/dev/null)) || return $?
+    IFS="$si"
+    if type __ltrim_colon_completions &>/dev/null; then
+      __ltrim_colon_completions "${words[cword]}"
+    fi
+  }
+  complete -o default -F _npm_completion npm
+elif type compdef &>/dev/null; then
+  _npm_completion() {
+    local si=$IFS
+    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
+                 COMP_LINE=$BUFFER \
+                 COMP_POINT=0 \
+                 npm completion -- "${words[@]}" \
+                 2>/dev/null)
+    IFS=$si
+  }
+  compdef _npm_completion npm
+elif type compctl &>/dev/null; then
+  _npm_completion () {
+    local cword line point words si
+    read -Ac words
+    read -cn cword
+    let cword-=1
+    read -l line
+    read -ln point
+    si="$IFS"
+    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
+                       COMP_LINE="$line" \
+                       COMP_POINT="$point" \
+                       npm completion -- "${words[@]}" \
+                       2>/dev/null)) || return $?
+    IFS="$si"
+  }
+  compctl -K _npm_completion npm
+fi
+###-end-npm-completion-###
+
+
 [[ $- != *i* ]] && return
 
 colors() {
@@ -48,22 +110,27 @@ git_ac=~/programs/clones/git-completion.bash
 [[ -f $git_ac ]] && . "$git_ac"
 
 # PATH additions
+export PATH="$PATH:/usr/local/bin/"
 export PATH="$PATH:~/bin"
 export PATH="$PATH:/opt/apache-maven-3.5.4/bin"
-#export PATH="$PATH:~/programs/microclimate"
-export PATH="$PATH:~/programs/microclimate/docker/file-watcher/idc/"
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-export PATH="$PATH:/Users/tim/.microclimate"
+export JAVA_HOME=$(/usr/libexec/java_home -v 15)
+export PATH="$PATH:/Users/tim/.kube/plugins"
+export PATH="$PATH:/opt/shexter"
+export ARGOCD_API_URL="http://[::1]:8080"
 
 export SELENIUM_BROWSER=chrome
-export MC_ICP_URL="https://microclimate.9.20.200.123.nip.io"
 set editing-mode vi
 
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
+nvm use 12
 
 # added by travis gem
 [ -f /Users/tim/.travis/travis.sh ] && source /Users/tim/.travis/travis.sh
-source <(kubectl completion bash)
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:/usr/local/kubebuilder/bin"

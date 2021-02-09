@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-CHE_DOMAIN=$(kubectl get services --namespace ingress-nginx -o jsonpath='{.items[*].spec.clusterIP}')
-sudo ifconfig lo0 alias ${CHE_DOMAIN}

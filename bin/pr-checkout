@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+set -eE
+
+id=$1
+branchname=$2
+
+if [[ -z $id ]]; then
+    echo "PR id (number) must be passed in \$1"
+    exit 1
+fi
+
+if [[ -z $branchname ]]; then
+    branchname="PR-$id"
+fi
+
+upstream_exists=1
+git remote -v upstream >/dev/null 2>&1 && upstream_exists=0
+
+remote="origin"
+if [[ $upstream_exists -eq 0 ]]; then
+    remote="upstream"
+fi
+
+set -x
+git fetch ${remote} pull/${id}/head:${branchname}
+git checkout $branchname

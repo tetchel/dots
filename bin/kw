@@ -7,9 +7,19 @@ fi
 
 shift
 
+status=""
 while true; do
-    echo "kubectl get $resource @ $(date +'%R:%S')"
-    kubectl get $resource $@
+    prev=${status}
+    status="$(kubectl get $resource 2>&1)"
+
+    if [[ $status != $prev ]]; then
+        clear
+        echo "kubectl get $resource @ $(date +'%R:%S')"
+        echo "$status"
+        echo
+    else
+        echo -n "."
+    fi
+
     sleep 5
-    clear
 done

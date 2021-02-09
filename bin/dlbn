@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 result=$(dcbn "$1")
+shift 1
 
 if [[ ! "$?" ]]; then
     exit 1
 else
-    docker logs "$result"
+    docker logs $@ "$result"
 fi

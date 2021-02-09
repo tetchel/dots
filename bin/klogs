@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+name=$1
+shift
+po=$(kubectl get po $@ | grep $name | awk '{ print $1 }')
+kubectl logs -f $po

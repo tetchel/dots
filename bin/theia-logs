@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -x
-che_pod="$(k get po | grep che-workspace-pod | awk '{ print $1 }')"
-theia_container=$(po-containers $che_pod | awk '{ print $3 }')
-
-k logs -f $che_pod -c $theia_container

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+RELEASES="$(helm ls | tail -n +2 | awk '{ print $1 }' | xargs)"
+if [[ -z $RELEASES ]]; then
+    echo "No releases to uninstall"
+    exit 0
+fi
+
+echo "Uninstalling: $RELEASES"
+
+helm uninstall $RELEASES

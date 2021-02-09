@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# https://argoproj.github.io/argo-cd/faq/#i-forgot-the-admin-password-how-do-i-reset-it
+
+username=$1
+password=$2
+
+if [[ -z $username || -z $password ]]; then
+    echo "Usage: $0 \$username \$password"
+    echo "Missing username or password argument"
+    exit 1
+fi
+
+bcrypted=$(htpasswd -nbBC 10 ${username} ${password})
+bcrypted_pass=${bcrypted#*:}
+date=$(date +%FT%T%Z)
+
+echo 'Updating password for "'${username}'" to "'${password}'" at '${date}''
+
+set -x
+kubectl -n argocd patch secret argocd-secret -p '{"stringData" : { "'${username}.password'": "'${bcrypted_pass}'", "'${username}'.passwordMtime": "'${date}'" }}'

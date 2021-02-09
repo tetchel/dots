@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
 pod=$(kgp $1)
+shift
 
-k exec -it $pod -- /usr/bin/env bash
+k exec -it $@ $pod -- /usr/bin/env bash

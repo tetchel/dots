@@ -40,20 +40,32 @@ endpwd() {
 }
 
 my_date() {
-    echo "$(date +'%M')"
+    if [[ -n "${PROMPT_SECS}" ]]; then
+        echo "$(date +'%M:%S')"
+    else
+        echo "$(date +'%M')"
+    fi
 }
+
+git_branch() {
+    branch=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
+    if [[ -n $branch ]]; then
+        branch="(${branch}) "
+    else
+        branch=""
+    fi
+}   
 
 generate_prompt() {
     if [[ ${EUID} == 0 ]] ; then # sudo prompt
         PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
     else
-        PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${RESET}${YELLOW}$(my_date) ${BOLD}${CYAN}\$ ${RESET}"
+        git_branch
+        PS1="${BOLD}${YELLOW}[${GREEN} $(endpwd) ${YELLOW}] ${RESET}${YELLOW}$(my_date) ${RESET}${PURPLE}${BOLD}${branch}${RESET}${BOLD}${CYAN}\$ ${RESET}"
     fi
 }
 
 PROMPT_COMMAND=generate_prompt
-
-PS2="more > "
 
 ## start tmux automatically
 #if hash tmux 2>/dev/null; then {
