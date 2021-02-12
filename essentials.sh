@@ -11,12 +11,12 @@ download () {
     curl -fsSL "$url" -o "essentials/$outfile"
 }
 
+set -ex
 mkdir essentials
 
 download https://raw.githubusercontent.com/tetchel/dots/master/.bash_aliases
 download https://raw.githubusercontent.com/tetchel/dots/master/.bash_custom
 download https://raw.githubusercontent.com/tetchel/dots/master/.bashrc
-download https://raw.githubusercontent.com/tetchel/dots/master/.extend.bashrc
 download https://raw.githubusercontent.com/tetchel/dots/master/.vimrc
 
 cp -r essentials/. ~
