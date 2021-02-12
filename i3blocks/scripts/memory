@@ -66,6 +66,6 @@ END {
             printf("FFFF1A")
     }
 
-    printf("\n")
+    #printf("\n")
 }
 ' /proc/meminfo

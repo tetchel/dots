@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+set -eE -o pipefail
+
 # make sure working directory is 'dots' repo root
-\cp -rf .bashrc .bash_aliases .bash_custom .vimrc .Xresources .Xdefaults .ncmpcpp/ ~
+\cp -rvf .bashrc .bash_aliases .bash_custom .vimrc .Xresources .Xdefaults ~
 mkdir -p ~/bin ~/programs ~/pictures
-\cp -rf bin/ ~/bin/
+\cp -rfv bin ~/bin/
 
 if [[ "$1" == "gui" ]]; then
     \cp -rf walls/ ~/pictures/
     \cp -rf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ ~/.config
 else
-    echo "Not unsyncing gui files"
+    echo "Not unsyncing gui files, pass \$1='gui'"
 fi

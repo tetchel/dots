@@ -19,6 +19,7 @@ use utf8;
 my $acpi;
 my $status;
 my $percent;
+my $percent_str;
 my $full_text;
 my $short_text;
 my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
@@ -36,32 +37,36 @@ if ($acpi !~ /: (\w+), (\d+)%/) {
 
 $status = $1;
 $percent = $2;
+$percent_str=" ${percent}% ";
 
 if ($status eq 'Discharging') {
     if ($percent < 10) {
-        $icon = ' '; 
+        $icon = ''; 
     }
     elsif ($percent < 25) {
-        $icon = ' ';
+        $icon = '';
     }
     elsif ($percent < 50) {
-        $icon = ' ';
+        $icon = '';
     }
     elsif ($percent < 75) {
-        $icon = ' ';
+        $icon = '';
     }
     else {
-        $icon = ' ';
+        $icon = '';
     }
 } else {
-	$icon = ''
+	$icon = '';
+    
+    if ($percent >= 95) { 
+        $percent_str = "";
+    }
 }
-$full_text = "$icon";
 
-$short_text = $full_text;
-$full_text = "$percent%  $icon";
+$short_text = $icon;
+$full_text = "$icon$percent_str";
 
-if ($acpi =~ /(\d\d:\d\d):/) {
+if ($acpi =~ /(\d?\d:\d\d):/) {
 	$full_text .= " ($1)";
 }
 

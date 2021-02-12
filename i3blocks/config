@@ -35,19 +35,19 @@ markup=pango
 #interval=persist
 
 [prev]
-interval=once
-separator=false
-separator_block_width=5
+#interval=once
+#separator=false
+#separator_block_width=5
 
 [mpc]
 #label=
-interval=1
-align=left
-separator=false
-separator_block_width=5
-
-[next]
-interval=once
+#interval=1
+#align=left
+#separator=false
+#separator_block_width=5
+#
+#[next]
+#interval=once
 
 # Volume indicator
 #
@@ -69,7 +69,7 @@ interval=300
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label= 
+label= 
 interval=10
 
 # Disk usage
@@ -78,24 +78,28 @@ interval=10
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label= 
+label= 
 interval=60
 
-[ext_ip]
-label= 
-interval=30
 
-#[ibm]
-#interval=30
+[ext_ip]
+label= 
+interval=30
 
 # CPU usage
 #
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label= 
+label= 
 interval=2
+min_width=____10%
 #separator=false
+#
+
+[temperature]
+label= 
+interval=2
 
 #[load_average]
 #interval=10
@@ -105,16 +109,16 @@ interval=2
 # The battery instance defaults to 0.
 [battery]
 #label=BAT
-instance=0
+#instance=0
 interval=30
 
 # Date Time
 #
 [clock]
-label=  
-command=date '+%b %e  %H:%M'; #[[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
-interval=30
-separator_block_width=15
+label= 
+command=date '+%b %e %Y %H:%M'; [[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
+interval=10
+#separator_block_width=20
 
 [lastsep]
 #command=echo " | "

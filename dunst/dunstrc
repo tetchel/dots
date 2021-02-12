@@ -1,5 +1,5 @@
 [global]
-    font = Hack 10
+    font = Hack 12
 
     allow_markup = yes
 
@@ -11,7 +11,7 @@
     #   %I  iconname (without its path)
     #   %p  progress value if set ([  0%] to [100%]) or nothing
     # Markup is allowed
-    format = "<b>%s</b>\n%b"
+    format = "%I <b>%a</b>\n\n<b>%s</b>\n%b"
 
     sort = yes
     indicate_hidden = yes
@@ -35,30 +35,30 @@
     horizontal_padding = 20
     separator_color = frame
     startup_notification = false
-    # dmenu = /usr/bin/dmenu -p dunst:
-    browser = firefox
-    icon_position = off
-    icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = firefox -new-tab
+    # icon_position = off
+    show_icons = yes
+    icon_folders = /usr/share/icons/gnome/32x32/status/:/usr/share/icons/gnome/32x32/devices/
+    timeout = 3
 
 [frame]
-    width = 2
-    color = "#b30000"
+    width = 3
+    color = "#aaaaaa"
 
 [shortcuts]
     close = ctrl+space
     close_all = ctrl+shift+space
 
 [urgency_low]
-    background = "#282828"
-    foreground = "#ebdbb2"
-    timeout = 3
+    background = "#222222"
+    foreground = "#eeeeee"
 
 [urgency_normal]
-    background = "#282828"
-    foreground = "#ebdbb2"
-    timeout = 3
+    background = "#222222"
+    foreground = "#eeeeee"
 
 [urgency_critical]
-    background = "#282828"
-    foreground = "#ebdbb2"
-timeout = 3
+    background = "#900000"
+    foreground = "#ffffff"
+    timeout = 0

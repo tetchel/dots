@@ -43,6 +43,8 @@ GetOptions("help|h" => \&help,
            "c=i"    => \$t_crit,
            "chip=s" => \$chip);
 
+$chip = "coretemp-isa-0000";
+
 # Get chip temperature
 open (SENSORS, "sensors -u $chip |") or die;
 while (<SENSORS>) {

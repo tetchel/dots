@@ -1,4 +1,4 @@
-URxvt*font: xft:Monospace:size=10
+URxvt*font: xft:Monospace:size=10,xft:FontAwesome:style=Regular
 URxvt*boldFont: xft:Monospace:bold:size=10
 
 ! click on links

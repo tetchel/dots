@@ -17,7 +17,7 @@ set $mod Mod1
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango: Ubuntu Mono 8 
+font pango:DejaVu Sans 11
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -149,10 +149,18 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Exciting new things!
-bindsym $mod+o exec ~/.config/i3lock/i3lock.sh
+# Lockscreen
+bindsym $mod+o exec ~/bin/screenlock
+bindsym $mod+shift+o exec ~/bin/screenlock suspend
 
-bindsym --release $mod+Print exec --no-startup-id "scrot '%F-%T.png' -z -e 'mv $f ~/pictures/screens'"
-bindsym --release Print exec --no-startup-id "scrot '%F-%T.png' -s -z -e 'mv $f ~/pictures/screens'"
+# Screenshot
+bindsym --release Print exec --no-startup-id "maim -s | xclip -selection clipboard -t image/png"
+bindsym --release $mod+shift+Print exec --no-startup-id "maim -s -d 2 | xclip -selection clipboard -t image/png"
+bindsym --release $mod+Print exec --no-startup-id "maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png"
+
+# Emoji picker
+bindsym ctrl+$mod+space exec emoji-picker
+
 #bindsym Print exec shutter -s -c -o --disable-systray '~/pictures/screens/%Y-%m-%d %NN'
 
 #focus_follows_mouse no
@@ -178,6 +186,7 @@ client.focused_inactive $unborder   $unfocus    $lightext
 client.urgent           $urgent     $urgent     $lightext
 
 hide_edge_borders smart
+workspace_auto_back_and_forth no
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
@@ -188,33 +197,42 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 for_window [class="(?i)gvim"] border pixel 1
 
-set $bar_height 25 
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down $bar_height px
+
+for_window [class="(?i)firefox"] border pixel 1
 
 # No title bar
 for_window [class="(?i)firefox"] border pixel 1
 for_window [class="(?i)rxvt"] border pixel 1
 for_window [class="(?i)eclipse" tiling] border pixel 0
+for_window [class="(?i)slack" tiling] border pixel 0
+for_window [class="(?i)code"] border pixel 0
 
 # Shortcuts for specific apps
 bindsym ctrl+$mod+e [class="(?i)eclipse"] focus
 bindsym ctrl+$mod+f [class="(?i)firefox"] focus
 bindsym ctrl+$mod+t [class="(?i)rxvt"] focus
 bindsym ctrl+$mod+s [class="(?i)slack"] focus
+bindsym ctrl+$mod+v [class="(?i)code"] focus
 
-set $bar_monitor VGA-1
+# set $bar_monitor DP-3
+#
+set $workspace_min_width 50
+set $bar_font DejaVu Sans, FontAwesome 13
 
 bar {
-    output $bar_monitor
-    tray_output $bar_monitor 
-    #height $bar_height
-    tray_padding 1
+    output DP-3
+    tray_output DP-3
+    #tray_output primary
+    tray_padding 0
 
-    font pango: DejaVu Sans Mono 11, FontAwesome 11
+    font pango: $bar_font
+    workspace_min_width $workspace_min_width
 
     colors {
         background #0f0f0f
-        separator  #757575
+        statusline #ffffff
+        separator  #aaaaaa
 
         #statusline         $white
         #background         $transparent
@@ -230,15 +248,34 @@ bar {
 
     status_command i3blocks
 }
+
+bar {
+    output DP-1
+    tray_output none
+    position top
+    font pango: DejaVu Sans, FontAwesome 10
+
+    workspace_min_width $workspace_min_width
+    
+    
+    status_command i3blocks -c ~/.config/i3blocks/config-empty
+}
+
+
+
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/walls/neusch.jpg
-exec pkill notif
-exec --no-startup-id dunst
-exec pkill mopidy
-exec pkill mpd
-exec --no-startup-id mopidy
-#exec --no-startup-id compton -b
+exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg
+# exec pkill notif
+# exec --no-startup-id dunst
+# exec pkill mopidy
+# exec pkill mpd
+# exec --no-startup-id mopidy
+# exec --no-startup-id compton -b
+exec --no-startup-id xfce4-notifyd
 exec --no-startup-id pasystray
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 exec urxvt
 exec firefox
+exec slack

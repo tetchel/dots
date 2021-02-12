@@ -10,7 +10,8 @@ alias ps='ps -ax'
 alias sdin='sudo shutdown -P'    #followed by number of minutes to wait, drop a & at the end:
 alias t='top'
 alias e='exit'
-alias s='sudo pm-suspend'
+#alias s='sudo pm-suspend'
+alias suspend='systemctl suspend'
 alias su='sudo -i'
 alias o='open'
 #alias ls='ls --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
@@ -51,6 +52,9 @@ alias agr='sudo apt-get remove'
 alias cleanup='sudo apt-get autoremove; rm -rf ~/.local/share/Trash/*'
 alias agpurge='sudo apt-get purge'
 
+#yum
+alias yi='sudo yum install -y'
+
 #applications
 alias n='nemo --no-desktop . >/dev/null 2>&1 &'
 alias tweak='gnome-tweak-tool >/dev/null &>/dev/null &'
@@ -86,7 +90,8 @@ alias vmpw="cat ~/.vmpw | pbcopy"
 
 # i3
 alias lock='~/.config/i3lock/i3lock.sh &'
-alias i3conf='~/.config/i3/config'
+alias i3conf='vim ~/.config/i3/config'
+alias blocksconf='vim ~/.config/i3blocks/config'
 alias quiti3='i3-msg exit'
 
 # Arch

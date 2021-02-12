@@ -4,18 +4,17 @@ import urllib.request
 import json
 import os
 
-# Toronto = 6167865
-# Montreal = 6077243
-
-city=6077243
+city_name='Toronto, ON'
+city=6167865
 
 key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
 key = ''
-with open(key_loc, 'r') as f:
-    key = f.read()
-    key = key.strip('\n')
 
-if not key:
+try:
+    with open(key_loc, 'r') as f:
+        key = f.read()
+        key = key.strip('\n')
+except:
     print("OWM key file error.")
     exit
 
@@ -29,7 +28,7 @@ with urllib.request.urlopen(url) as connection:
     # only seems to happen in python
     # multiple at the beginning
     response = str(response)
-    while (response[0] is not '{'):
+    while (response[0] != '{'):
         response = response[1:]
 
     # and one at the end
@@ -54,8 +53,8 @@ elif temp < -3:
 
 # min width is 3 since "-10" is 3 wide
 temp = str(temp)
-while(len(temp) < 3):
-   temp = ' ' + temp 
+#while(len(temp) < 3):
+#   temp = ' ' + temp 
 
 # possible conditions:
 # Thunderstorm 2xx, Drizzle 3xx, Rain 5xx, Snow 6xx, Atmosphere (fog) 7xx, Clear 800, Clouds 80x, Extreme 90x
@@ -74,6 +73,7 @@ elif code.startswith('7') or (code.startswith('8') and code != '800'):
 elif code.startswith('90'):
     icon=''
 
-print(temp_icon + '   ' + str(temp) + '°  ' + icon)
-print(temp_icon + '   ' + str(temp) + '°  ' + icon)
-print("")
+output='{}  {}  {}°C'.format(icon, city_name, str(temp))
+print(output)
+print(output)
+#print("")
