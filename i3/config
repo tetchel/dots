@@ -215,6 +215,9 @@ bindsym ctrl+$mod+t [class="(?i)rxvt"] focus
 bindsym ctrl+$mod+s [class="(?i)slack"] focus
 bindsym ctrl+$mod+v [class="(?i)code"] focus
 
+# Bind windows to workspaces
+assign [class="(?i)slack"] 4
+
 # set $bar_monitor DP-3
 #
 set $workspace_min_width 50
@@ -261,10 +264,10 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
-
+exec ~/.config/i3/screen-layout.sh
 
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg
+exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
 # exec pkill notif
 # exec --no-startup-id dunst
 # exec pkill mopidy

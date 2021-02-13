@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-dest="$1"
-if [[ -z "$dest" ]]; then
-    dest="."
-fi
-
-\cp -rf ~/.bashrc ~/.bash_aliases ~/.bash_custom ~/.config/dunst/ ~/.config/i3blocks/ ~/.config/i3 ~/.config/gsimplecal/ ~/.config/i3lock ~/.vimrc ~/.Xresources ~/pictures/walls ~/.Xdefaults ~/bin $dest
