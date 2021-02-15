@@ -89,9 +89,8 @@ alias deleteTestProjects="set -x; ~/bin/delete-projects.py localhost:10000 test 
 alias vmpw="cat ~/.vmpw | pbcopy"
 
 # i3
-alias lock='~/.config/i3lock/i3lock.sh &'
 alias i3conf='vim ~/.config/i3/config'
-alias blocksconf='vim ~/.config/i3blocks/config'
+alias blocksconf='gvim ~/.config/i3blocks/config'
 alias quiti3='i3-msg exit'
 
 # Arch

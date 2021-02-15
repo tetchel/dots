@@ -1,0 +1,17 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+    1) playerctl play-pause
+esac
+
+status=$(playerctl status)
+if [[ $status == "Playing" ]]; then
+    echo ""
+    echo ""
+elif [[ $status == "Paused" ]]; then
+    echo ""
+    echo ""
+else
+    # echo "Unknown status '$status'"
+    exit 0
+fi

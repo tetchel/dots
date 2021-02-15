@@ -16,6 +16,8 @@ use strict;
 use warnings;
 use utf8;
 
+use open ":std", ":encoding(UTF-8)"; 
+
 my $acpi;
 my $status;
 my $percent;
@@ -24,6 +26,12 @@ my $full_text;
 my $short_text;
 my $bat_number = $ENV{BLOCK_INSTANCE} || 0;
 my $icon;
+my $button;
+
+$button = $ENV{ 'BLOCK_BUTTON' };
+if (defined($button) && $button eq 1) {
+    system 'xfce4-power-manager-settings &'
+}
 
 # read the first line of the "acpi" command output
 open (ACPI, "acpi -b | grep 'Battery $bat_number' |") or die;
@@ -37,19 +45,19 @@ if ($acpi !~ /: (\w+), (\d+)%/) {
 
 $status = $1;
 $percent = $2;
-$percent_str=" ${percent}% ";
+$percent_str="  ${percent}%";
 
 if ($status eq 'Discharging') {
     if ($percent < 10) {
         $icon = ''; 
     }
-    elsif ($percent < 25) {
+    elsif ($percent < 30) {
         $icon = '';
     }
-    elsif ($percent < 50) {
+    elsif ($percent < 60) {
         $icon = '';
     }
-    elsif ($percent < 75) {
+    elsif ($percent < 80) {
         $icon = '';
     }
     else {
@@ -66,9 +74,12 @@ if ($status eq 'Discharging') {
 $short_text = $icon;
 $full_text = "$icon$percent_str";
 
-if ($acpi =~ /(\d?\d:\d\d):/) {
-	$full_text .= " ($1)";
-}
+# This displays the remaining time to empty or to change
+# but it is not really accurate so why bother
+#
+# if ($acpi =~ /(\d?\d:\d\d):/) {
+# 	$full_text .= " ($1)";
+# }
 
 # print text
 print "$full_text\n";
@@ -77,13 +88,13 @@ print "$short_text\n";
 # color
 if ($status eq 'Discharging') {
 
-	if ($percent < 20) {
+	if ($percent < 15) {
 		print "#FF0000\n";
 	} elsif ($percent < 30) {
 		print "#FFAE00\n";
-	} elsif ($percent < 50) {
-		print "#FFF600\n";
-	} elsif ($percent < 75) {
+	# } elsif ($percent < 20) {
+		# print "#FFF600\n";
+	} elsif ($percent < 40) {
 		print "#A8FF00\n";
 	}
 

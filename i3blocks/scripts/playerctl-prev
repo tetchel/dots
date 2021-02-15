@@ -1,0 +1,13 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+    1) playerctl previous
+esac
+
+status=$(playerctl status)
+if [[ -z $status ]]; then
+    exit 0
+fi
+
+echo "  "
+echo "  "

@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import urllib.request
+import datetime
+from dateutil import tz
+import json
+
+# timezone = tz.gettz('US/Eastern')
+# now = datetime.datetime.now().astimezone(timezone)
+# hour = now.hour
+# minute = now.minute
+
+# if hour < 7 or hour > 20:
+    # Don't update between these hours
+    # sys.exit(0)
+
+if len(sys.argv) > 1:
+    ticker = sys.argv[1]
+    ticker = str(ticker).upper()
+elif os.environ.get('BLOCK_INSTANCE'):
+    ticker = os.environ.get('BLOCK_INSTANCE')
+else:
+    ticker = 'SPY'
+
+interval = '1m'
+
+url=(
+    'https://query1.finance.yahoo.com/v8/finance/chart/' 
+    + ticker
+    + '?region=US&lang=en-US&includePrePost=true&interval='
+    + interval
+    + '&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance'
+)
+
+response = urllib.request.urlopen(url).read()
+
+ticker_data = json.loads(response)
+ticker_data = ticker_data['chart']['result'][0]
+# with open(ticker + '.json', 'w') as outfile:
+#   json.dump(ticker_data, outfile)
+
+close_prices = ticker_data['indicators']['quote'][0]['close']
+current_price = close_prices[-1]
+last_price = close_prices[-2]
+
+change_price = round(last_price - current_price, 2)
+change_pct = str(round(change_price / last_price * 100, 1)) + '%'
+
+color = "#aa0000"
+if change_price > 0:
+    color = "#00aa00"
+    change_price = '+' + str(change_price)
+
+print('{} {:.2f}  <span color="{}">{} ({})</span>'
+    .format(ticker, current_price, color, change_price, change_pct))
+
+print('{} <span color="{}">{:.2f}</span>'
+    .format(ticker, color, current_price))

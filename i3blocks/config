@@ -30,40 +30,34 @@ command=~/.config/i3blocks/scripts/$BLOCK_NAME
 separator_block_width=25
 markup=pango
 
-#[window]
-#command=xtitle -s
-#interval=persist
+# [playerctl]
+# label=  
+# markup=none
+# interval=1
 
-[prev]
-#interval=once
-#separator=false
-#separator_block_width=5
+# [playerctl-prev]
+# interval=1
+# separator=false
+# separator_block_width=10
+# 
+# [playerctl-play-pause]
+# interval=1
+# separator=false
+# separator_block_width=10
+# 
+# [playerctl-next]
+# interval=1
 
-[mpc]
-#label=
-#interval=1
-#align=left
-#separator=false
-#separator_block_width=5
-#
-#[next]
-#interval=once
-
-# Volume indicator
-#
-# The first parameter sets the step (and units to display)
-# The second parameter overrides the mixer selection
-# See the script for details.
-#[volume]
-#label= 
-#instance=Master
-##instance=PCM
-#interval=once
-#signal=10
-#min_width=__ 100%
+# [stonk]
+# interval=10
+# instance=SPY
 
 [weather]
 interval=300
+
+[ext_ip]
+label= 
+interval=30
 
 # Memory usage
 #
@@ -77,14 +71,9 @@ interval=10
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
-[disk]
-label= 
-interval=60
-
-
-[ext_ip]
-label= 
-interval=30
+# [disk]
+# label= 
+# interval=60
 
 # CPU usage
 #
@@ -104,23 +93,26 @@ interval=2
 #[load_average]
 #interval=10
 
-# Battery indicator
-#
-# The battery instance defaults to 0.
 [battery]
-#label=BAT
-#instance=0
 interval=30
 
-# Date Time
-#
-[clock]
+[cal]
 label= 
-command=date '+%b %e %Y %H:%M'; [[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
+command=date '+%a %b %d'; [[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
+interval=30
+
+[clock]
+label= 
+command=date '+%k:%M %Z'
 interval=10
-#separator_block_width=20
+
+# [redhat]
+# command=printf "\n\n#ff0000\n"
+# interval=once
 
 [lastsep]
-#command=echo " | "
-command=echo "​"
+# command=echo " | "
+# command=echo "​"
+command=echo ""
+separator_block_width=5
 interval=once

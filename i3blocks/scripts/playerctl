@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+from subprocess import PIPE, Popen
+
+def run(*cmd): 
+    p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    output, err = p.communicate()
+
+    if p.returncode != 0:
+        raise Exception(err.decode('utf-8').strip())
+
+    return output.decode('utf-8').strip()
+
+def get_metadata_item(metadata, item):
+    if item == 'trackid' or item == 'length' or item == 'artUrl':
+        meta_name = 'mpris:' + item
+    else:
+        meta_name = 'xesam:' + item
+
+    line = list(filter(lambda data_line: meta_name in data_line, metadata))[0]
+    result = line.split(meta_name, 1)[1].strip()
+    return result
+
+button = os.environ.get('BLOCK_BUTTON')
+if button == '1':
+    run('playerctl', 'play-pause')
+
+try:
+    song_data = run('playerctl', 'metadata').splitlines()
+except Exception as e:
+    sys.exit()
+    pass
+
+title = get_metadata_item(song_data, 'title')
+artist = get_metadata_item(song_data, 'artist')
+
+status=run('playerctl', 'status')
+if status == 'Playing':
+    icon=''
+else:
+    icon=''
+
+print('{} - {}  {}'.format(title, artist, icon))
+print('{} {}'.format(title, icon))

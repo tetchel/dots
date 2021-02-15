@@ -9,7 +9,10 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
+# Windows key
+set $mod Mod4
+# Alt
+# set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -150,8 +153,8 @@ bindsym $mod+r mode "resize"
 
 # Exciting new things!
 # Lockscreen
-bindsym $mod+o exec ~/bin/screenlock
-bindsym $mod+shift+o exec ~/bin/screenlock suspend
+bindsym $mod+o exec ~/bin/screen-lock
+bindsym $mod+shift+o exec ~/bin/screen-lock suspend
 
 # Screenshot
 bindsym --release Print exec --no-startup-id "maim -s | xclip -selection clipboard -t image/png"
@@ -163,11 +166,13 @@ bindsym ctrl+$mod+space exec emoji-picker
 
 #bindsym Print exec shutter -s -c -o --disable-systray '~/pictures/screens/%Y-%m-%d %NN'
 
-#focus_follows_mouse no
+# focus_follows_mouse no
 
 #bb <- Good transparency (disabled because of black borders on GTK windows)
-set $green      #008000
+set $white      #dddddd
+set $green      #448844
 set $blue       #0069c3
+set $lightblue  #0088dd
 set $yellow     #cca300
 
 set $unfocus    #002d56
@@ -180,13 +185,13 @@ set $urgent     #E53935
 set $indcol     #702020
 
 #                       border      backgr.     text        indicator   child_border
-client.focused          $blue       $blue       $lightext   $yellow     $green
+client.focused          $blue       $blue       $lightext   $white      $lightblue
 client.unfocused        $unborder   $unfocus    $lightext
 client.focused_inactive $unborder   $unfocus    $lightext
 client.urgent           $urgent     $urgent     $lightext
 
+focus_on_window_activation smart
 hide_edge_borders smart
-workspace_auto_back_and_forth no
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
@@ -195,18 +200,11 @@ for_window [window_role="Preferences"] floating enable
 
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
-for_window [class="(?i)gvim"] border pixel 1
 
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down $bar_height px
 
-for_window [class="(?i)firefox"] border pixel 1
-
 # No title bar
-for_window [class="(?i)firefox"] border pixel 1
-for_window [class="(?i)rxvt"] border pixel 1
-for_window [class="(?i)eclipse" tiling] border pixel 0
-for_window [class="(?i)slack" tiling] border pixel 0
-for_window [class="(?i)code"] border pixel 0
+for_window [tiling] border pixel 1
 
 # Shortcuts for specific apps
 bindsym ctrl+$mod+e [class="(?i)eclipse"] focus
@@ -216,24 +214,32 @@ bindsym ctrl+$mod+s [class="(?i)slack"] focus
 bindsym ctrl+$mod+v [class="(?i)code"] focus
 
 # Bind windows to workspaces
-assign [class="(?i)slack"] 4
+# assign [class="(?i)firefox"] 2
+# assign [class="(?i)slack"] 4
 
-# set $bar_monitor DP-3
-#
+# Assign screenlayout before bar
+exec ~/.config/i3/screen-layout
+
 set $workspace_min_width 50
-set $bar_font DejaVu Sans, FontAwesome 13
+set $bar_font DejaVu Sans, FontAwesome 5 Free, FontAwesome 5 Brands, 12
+# set $bar_font DejaVu Sans, FontAwesome 12
+# set $bar_monitor DP-3
 
 bar {
-    output DP-3
-    tray_output DP-3
+    # output $bar_monitor
     #tray_output primary
+    output primary
+    tray_output primary
     tray_padding 0
+    position top
 
     font pango: $bar_font
     workspace_min_width $workspace_min_width
 
+    status_command i3blocks
+
     colors {
-        background #0f0f0f
+        background #111111
         statusline #ffffff
         separator  #aaaaaa
 
@@ -246,14 +252,10 @@ bar {
 		#inactive_workspace 
         #urgent_workspace  
     }
-
-    position top
-
-    status_command i3blocks
 }
 
 bar {
-    output DP-1
+    output DP1
     tray_output none
     position top
     font pango: DejaVu Sans, FontAwesome 10
@@ -264,21 +266,17 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
-exec ~/.config/i3/screen-layout.sh
-
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
+# exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
 # exec pkill notif
 # exec --no-startup-id dunst
-# exec pkill mopidy
-# exec pkill mpd
-# exec --no-startup-id mopidy
 # exec --no-startup-id compton -b
-exec --no-startup-id xfce4-notifyd
-exec --no-startup-id pasystray
-exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
+# exec --no-startup-id xfce4-notifyd
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pasystray -a
+# exec --no-startup-id nm-applet
+# exec --no-startup-id blueman-applet
 
 exec urxvt
-exec firefox
-exec slack
+# jexec firefox
+# exec slack

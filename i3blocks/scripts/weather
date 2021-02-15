@@ -73,7 +73,7 @@ elif code.startswith('7') or (code.startswith('8') and code != '800'):
 elif code.startswith('90'):
     icon=''
 
-output='{}  {}  {}°C'.format(icon, city_name, str(temp))
+output='{}  {}°C'.format(icon, str(temp))
 print(output)
 print(output)
 #print("")

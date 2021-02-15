@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# This script is no longer used since 'pasystray -a' does all I need.
+
+set -eE -o pipefail
+
+help() {
+    echo "Operation must be passed in \$1"
+    echo "Supported operations are: mute, mic-mute, up, down"
+    exit 1
+}
+
+vol() {
+    echo "$(pulsemixer --get-volume | awk '{ print $1 }')"
+}
+
+operation=$1
+increment="5"
+
+xobfile="/tmp/xobpipe"
+
+if [ "$operation" == "mute" ]; then
+    pulsemixer --toggle-mute
+    muted=$(pulsemixer --get-mute)
+
+    if [ "$muted" = "0" ]; then
+        echo $(vol) >> $xobfile
+    else
+        echo "$(vol)!" >> $xobfile
+    fi
+elif [ "$operation" == "mic-mute" ]; then
+    # grep, cut, sed all in one ;)
+    default_source=$(pulsemixer --list-sources | grep Default | cut -d " " -f3 | sed 's/,//g')
+    pulsemixer --id $default_source --toggle-mute
+    muted=$(pulsemixer --id $default_source --get-mute)
+
+    if [ "$muted" == "0" ]; then
+        # https://specifications.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+        notify-send "Microphone On" --icon=audio-input-microphone
+    else
+        notify-send "Microphone Off" --icon=audio-input-microphone
+    fi
+elif [ "$operation" == "up" ]; then
+    pulsemixer --unmute
+    pulsemixer --change-volume "+$increment"
+    echo $(vol) >> $xobfile
+elif [ "$operation" == "down" ]; then
+    pulsemixer --unmute
+    pulsemixer --change-volume "-$increment"
+    echo $(vol) >> $xobfile
+else
+    echo "Unknown operation '$operation'"
+    help
+fi
