@@ -1,1 +1,19 @@
-/home/tim/.config/i3/screen-layout
+#!/bin/sh
+
+laptop="eDP-1"
+external_bigmon="DP-2"
+external_smallmon="DP-1"
+
+monitors=$(xrandr --listmonitors)
+if echo "${monitors}" | grep -q $external_bigmon; then
+    echo "Desktop configuration"
+    xrandr --output $laptop --off \
+        --output $external_smallmon --mode 1920x1080 --pos 0x0 --rotate normal \
+        --output $laptop --off \
+        --output $external_bigmon --primary --mode 2560x1440 --pos 1920x0 --rotate normal
+else
+    echo "Laptop configuration"
+    xrandr --output $laptop --mode 1920x1080 --primary
+fi
+
+

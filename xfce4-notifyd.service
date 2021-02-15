@@ -1,0 +1,10 @@
+# /usr/lib/systemd/user/xfce4-notifyd.service
+
+[Unit]
+Description=XFCE notifications service
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.Notifications
+Environment=DISPLAY=:0.0
+ExecStart=/usr/lib64/xfce4/notifyd/xfce4-notifyd

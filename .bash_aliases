@@ -28,7 +28,8 @@ alias ZZ='exit'
 alias :q="echo 'this is not vim'"
 alias disa='disown -a'
 alias fork='urxvt & >/dev/null 2>&1; disown -a'
-alias clip="xclip -sel clip"
+alias clip="xclip -selection c"
+alias xclip="xclip -selection c"
 alias unbz="bzip2 -d"
 alias ipaddr="ifconfig en0 | grep inet | grep -v inet6 | column -t"
 

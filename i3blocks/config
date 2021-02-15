@@ -106,9 +106,9 @@ label=
 command=date '+%k:%M %Z'
 interval=10
 
-# [redhat]
-# command=printf "\n\n#ff0000\n"
-# interval=once
+[redhat]
+command=printf "\n\n#ff0000\n" # && [[ $BLOCK_BUTTON == "1" ]] && urxvt -e "screenfetch"
+interval=once
 
 [lastsep]
 # command=echo " | "

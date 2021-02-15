@@ -213,12 +213,16 @@ bindsym ctrl+$mod+t [class="(?i)rxvt"] focus
 bindsym ctrl+$mod+s [class="(?i)slack"] focus
 bindsym ctrl+$mod+v [class="(?i)code"] focus
 
-# Bind windows to workspaces
-# assign [class="(?i)firefox"] 2
-# assign [class="(?i)slack"] 4
+# Assign screenlayout
+exec ~/bin/screen-layout
 
-# Assign screenlayout before bar
-exec ~/.config/i3/screen-layout
+# Bind workspace 1 to primary
+workspace 1 output primary
+
+# Bind windows to workspaces
+assign [class="(?i)rxvt"] 1
+assign [class="(?i)firefox"] 2
+assign [class="(?i)slack"] 4
 
 set $workspace_min_width 50
 set $bar_font DejaVu Sans, FontAwesome 5 Free, FontAwesome 5 Brands, 12
@@ -255,7 +259,7 @@ bar {
 }
 
 bar {
-    output DP1
+    output DP-1
     tray_output none
     position top
     font pango: DejaVu Sans, FontAwesome 10
@@ -266,17 +270,14 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
-# Set wallpaper
-# exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
-# exec pkill notif
-# exec --no-startup-id dunst
 # exec --no-startup-id compton -b
-# exec --no-startup-id xfce4-notifyd
-# exec --no-startup-id xfce4-power-manager
-# exec --no-startup-id pasystray -a
-# exec --no-startup-id nm-applet
-# exec --no-startup-id blueman-applet
+exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
+exec --no-startup-id xfce4-notifyd
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id pasystray -a
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 
 exec urxvt
-# jexec firefox
-# exec slack
+exec firefox
+exec slack

@@ -1,3 +1,13 @@
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 URxvt*font: xft:Monospace:size=10,xft:FontAwesome:style=Regular
 URxvt*boldFont: xft:Monospace:bold:size=10
 
@@ -11,9 +21,10 @@ URxvt.scrollBar: false
 URxvt.cursorUnderline: true
 
 # copy-paste with keyboard
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.iso14755: False
-URxvt.perl-ext-common: default,matcher,clipboard
+URxvt.perl-ext-common: default,matcher,selection-to-clipboard
+URxvt.clipboard.autocopy: true
+URxvt.keysym.Control-V: eval:paste_clipboard
 
 ! to match gnome-terminal "Linux console" scheme
 ! foreground/background
@@ -43,3 +54,4 @@ URxvt.color14 : #55FFFF
 ! white
 URxvt.color7  : #AAAAAA
 URxvt.color15 : #FFFFFF
+

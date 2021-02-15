@@ -3,15 +3,17 @@
 set -eE -o pipefail
 
 read -r -p "Are you sure? This will overwrite the config files in your home directory. [y/N]: " response
-if ! [[ response =~ [yY] ]]; then
-    echo "Goodbye!"
+if ! [[ $response =~ [yY] ]]; then
+    echo "OK, exiting."
     exit 0
 fi
 
 # make sure working directory is 'dots' repo root
-\cp -rvf .bashrc .bash_aliases .bash_custom .vimrc .Xresources .Xdefaults ~
-mkdir -p ~/bin ~/programs ~/pictures
-\cp -rfv bin ~/bin/
+cd $(dirname $0)
+
+\cp -rvf .bashrc .bash_aliases .bash_custom .vimrc .Xdefaults ~
+mkdir -p ~/bin ~/programs ~/pictures ~/downloads ~/documents
+\cp -rfv bin/* ~/bin
 
 if [[ "$1" == "gui" ]]; then
     \cp -vrf walls/ ~/pictures/
@@ -19,3 +21,5 @@ if [[ "$1" == "gui" ]]; then
 else
     echo "Not unsyncing gui files, pass \$1='gui'"
 fi
+
+cd -
