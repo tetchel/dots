@@ -11,9 +11,11 @@ if echo "${monitors}" | grep -q $external_bigmon; then
         --output $external_smallmon --mode 1920x1080 --pos 0x0 --rotate normal \
         --output $laptop --off \
         --output $external_bigmon --primary --mode 2560x1440 --pos 1920x0 --rotate normal
+    notify-send "Monitors in desktop config" -i "video-display"
 else
     echo "Laptop configuration"
     xrandr --output $laptop --mode 1920x1080 --primary
+    notify-send "Monitors in laptop config" -i "video-display"
 fi
 
 

@@ -152,6 +152,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Exciting new things!
+
+# Assign screenlayout
+exec ~/bin/screen-layout
+bindsym $mod+shift+r exec --no-startup-id ~/bin/screen-layout
+
 # Lockscreen
 bindsym $mod+o exec ~/bin/screen-lock
 bindsym $mod+shift+o exec ~/bin/screen-lock suspend
@@ -213,15 +218,12 @@ bindsym ctrl+$mod+t [class="(?i)rxvt"] focus
 bindsym ctrl+$mod+s [class="(?i)slack"] focus
 bindsym ctrl+$mod+v [class="(?i)code"] focus
 
-# Assign screenlayout
-exec ~/bin/screen-layout
-
 # Bind workspace 1 to primary
 workspace 1 output primary
 
 # Bind windows to workspaces
-assign [class="(?i)rxvt"] 1
-assign [class="(?i)firefox"] 2
+# assign [class="(?i)rxvt"] 1
+# assign [class="(?i)firefox"] 2
 assign [class="(?i)slack"] 4
 
 set $workspace_min_width 50
@@ -270,14 +272,14 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
-# exec --no-startup-id compton -b
+exec --no-startup-id compton -b
 exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
-exec --no-startup-id xfce4-notifyd
+exec --no-startup-id systemctl --user start xfce4-notifyd
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pasystray -a
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 
-exec urxvt
-exec firefox
-exec slack
+exec --no-startup-id i3-msg 'workspace 1; exec urxvt'
+exec --no-startup-id i3-msg 'workspace 2; exec firefox'
+exec --no-startup-id i3-msg 'workspace 4; exec slack'

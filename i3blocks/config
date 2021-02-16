@@ -30,10 +30,10 @@ command=~/.config/i3blocks/scripts/$BLOCK_NAME
 separator_block_width=25
 markup=pango
 
-# [playerctl]
-# label=  
-# markup=none
-# interval=1
+[playerctl]
+label=  
+markup=none
+interval=1
 
 # [playerctl-prev]
 # interval=1
@@ -106,8 +106,7 @@ label=
 command=date '+%k:%M %Z'
 interval=10
 
-[redhat]
-command=printf "\n\n#ff0000\n" # && [[ $BLOCK_BUTTON == "1" ]] && urxvt -e "screenfetch"
+[red-hat]
 interval=once
 
 [lastsep]

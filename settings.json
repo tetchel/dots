@@ -2,6 +2,11 @@
     "vim.handleKeys": {
         "<C-d>": true,
         "<C-v>": false,
+        "<C-c>": false,
+        "<C-x>": false,
+        "<C-w>": false,
+        "<C-a>": false,
+        "<C-n>": false,
     },
 
     "vim.insertModeKeyBindings": [
@@ -26,7 +31,7 @@
             "after": [ "<Noop>" ]
         },
     ],
-    "vim.normalModeKeyBindings": [
+    "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [ "h" ],
             "after": [ "<Noop>" ]
@@ -139,5 +144,6 @@
         "staticcheck": false,
     },
     "python.languageServer": "Microsoft",
-    "gitlens.mode.active": "zen"
+    "gitlens.mode.active": "zen",
+    "window.menuBarVisibility": "toggle"
 }

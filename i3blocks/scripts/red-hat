@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+printf "\n\n#ff0000\n"
+
+if [[ -n $BLOCK_BUTTON ]]; then
+    urxvt -e bash -c "screenfetch; echo -e '\e[31m' && cat $(dirname $0)/red-hat-new.txt && bash"
+fi
