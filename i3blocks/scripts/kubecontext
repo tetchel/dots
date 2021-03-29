@@ -1,0 +1,19 @@
+# !/usr/bin/env bash
+
+context=$(kubectl config get-contexts $(kubectl config current-context) | tail -n +2 | sed 's/\*//g')
+full_name=$(echo $context | awk '{ print $1 }')
+cluster=$(echo $context | awk '{ print $2 }')
+authinfo=$(echo $context | awk '{ print $3 }')
+namespace=$(echo $context | awk '{ print $4 }')
+
+kubectl get po > /dev/null 2>&1
+connected=$?
+
+color="#c00000"
+if [[ $connected == "0" ]]; then
+    color="#326ce5"
+fi
+
+#echo "<span color='${color}'></span>  $full_name"
+echo "<span color='${color}'></span>  $namespace"
+echo "<span color='${color}'></span>"

@@ -61,6 +61,36 @@
             "after": [ "<Noop>" ]
         },
     ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+    {
+        "before": [ "h" ],
+        "after": [ "<Noop>" ]
+    },
+    {
+        "before": [ ";" ],
+        "after": [ "l" ]
+    },
+    {
+        "before": [ "l" ],
+        "after": [ "h" ]
+    },
+    {
+        "before": [ "<Up>" ],
+        "after": [ "<Noop>" ]
+    },
+    {
+        "before": [ "<Down>" ],
+        "after": [ "<Noop>" ]
+    },
+    {
+        "before": [ "<Left>" ],
+        "after": [ "<Noop>" ]
+    },
+    {
+        "before": [ "<Right>" ],
+        "after": [ "<Noop>" ]
+    },
+],
 
     "workbench.editor.enablePreview": false,
     "workbench.list.openMode": "doubleClick",
@@ -69,13 +99,12 @@
     "breadcrumbs.enabled": true,
     "window.nativeTabs": true,
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "window.zoomLevel": 0,
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "editor.renderWhitespace": "none",
+    "editor.tabSize": 2,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "liveServer.settings.donotShowInfoMsg": true,
     "workbench.startupEditor": "welcomePage",
@@ -95,7 +124,6 @@
     },
     "editor.accessibilitySupport": "off",
     "gitlens.hovers.currentLine.over": "line",
-    "terminal.integrated.fontFamily": "Menlo",
     "workbench.editor.showTabs": true,
     "workbench.tree.indent": 11,
     "debug.onTaskErrors": "abort",
@@ -107,7 +135,6 @@
     "explorer.autoReveal": false,
     "java.semanticHighlighting.enabled": true,
     "typescript.format.semicolons": "insert",
-    "typescript.preferences.quoteStyle": "single",
     "go.formatTool": "goimports",
     "vs-kubernetes": {
         "vs-kubernetes.minikube-path.mac": "/Users/tim/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
@@ -119,7 +146,8 @@
     "css.lint.float": "warning",
     "css.lint.duplicateProperties": "warning",
     "css.lint.zeroUnits": "warning",
-    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "double",
+    "javascript.preferences.quoteStyle": "double",
     "go.useLanguageServer": true,
     "[go]": {
         "editor.formatOnSave": true,
@@ -143,7 +171,20 @@
         // Warning: This will significantly increase memory usage.
         "staticcheck": false,
     },
+    "editor.fontSize": 13,
     "python.languageServer": "Microsoft",
     "gitlens.mode.active": "zen",
-    "window.menuBarVisibility": "toggle"
+    "window.menuBarVisibility": "toggle",
+    "redhat.telemetry.enabled": true,
+    "js/ts.implicitProjectConfig.checkJs": true,
+    "liveServer.settings.ignoreFiles": [
+        ".vscode/**",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.tsx?",
+    ],
+    "liveServer.settings.wait": 500,
+    "liveServer.settings.useWebExt": true,
+    "liveServer.settings.NoBrowser": true,
+    "go.toolsManagement.autoUpdate": true,
 }

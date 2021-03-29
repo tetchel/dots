@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -eEux -o pipefail
+
+if pgrep i3lock; then
+    exit 0
+fi
+
+xautolock \
+    -corners 00-- \
+    -time 5 \
+    -locker $(dirname $0)/screen-lock
+    -detectsleep
+    # -notify 1 \
+    # -notifier "notify-send -i system-lock-screen -- 'Locking screen'"

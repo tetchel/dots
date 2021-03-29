@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
 pod=$(kgp $1)
 shift
 
-k exec -it $@ $pod -- /usr/bin/env bash
+set -x
+kubectl exec -it $@ $pod -- /usr/bin/env sh

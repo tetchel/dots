@@ -41,13 +41,14 @@ END {
     mem_free_gb=mem_free/gb_ratio  
     swap_free_gb=swap_free/gb_ratio
 
-	if (type == "swap")
+	if (type == "swap") {
 		printf("%.2fG\n", swap_free_gb)
-	else
+		printf("%.2fG\n", swap_free_gb)
+    }
+	else {
 		printf("%.2fG\n", mem_free_gb)
-
-	# short text (none)
-    printf("\n")
+		printf("%.2fG\n", mem_free_gb)
+    }
 
 	# color
     if(type == "swap") { 

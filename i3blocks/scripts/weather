@@ -7,6 +7,9 @@ import os
 city_name='Toronto, ON'
 city=6167865
 
+if os.environ.get('BLOCK_BUTTON') == '1':
+    os.system("firefox https://www.accuweather.com/en/ca/toronto/m5h/weather-forecast/55488")
+
 key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
 key = ''
 
@@ -62,18 +65,24 @@ code = jso["weather"][0]["id"]
 code = str(code)
 
 icon=''
+color='#FFF400'
 if code.startswith('2'):
     icon=''
+    color='#FFF426'
 elif code.startswith('3') or code.startswith('5'):
     icon=''
+    color='#1270B6'
 elif code.startswith('6'):
     icon=''
+    color='#27AAE2'
 elif code.startswith('7') or (code.startswith('8') and code != '800'):
     icon=''
+    color='#c1c2c6'
 elif code.startswith('90'):
     icon=''
+    color='#FFF426'
 
-output='{}  {}°C'.format(icon, str(temp))
+output='<span color="{}">{}</span>  {}°C'.format(color, icon, str(temp))
 print(output)
 print(output)
 #print("")

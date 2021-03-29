@@ -5,9 +5,16 @@ if [[ -z $1 ]]; then
     exit 0
 fi
 
-pod="$1"
+match=$1
 shift
 
 pods="$(k get po $@)"
 
-echo "$pods" | grep "$pod" | awk '{ print $1 }'
+result=$(echo "$pods" | grep "$match" | awk '{ print $1 }')
+
+if [[ -z $result ]]; then
+    echo >&2 "No pod matching '$match'"
+    exit 1
+fi
+
+echo $result

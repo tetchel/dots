@@ -31,8 +31,10 @@ separator_block_width=25
 markup=pango
 
 [playerctl]
-label=  
-markup=none
+interval=1
+instance=spotify
+
+[playerctl]
 interval=1
 
 # [playerctl-prev]
@@ -49,14 +51,20 @@ interval=1
 # interval=1
 
 # [stonk]
+# instance=spy
 # interval=10
-# instance=SPY
+# [stonk]
+# instance=qqq
+# interval=10
+#
+#
+[kubecontext]
+interval=10
 
-[weather]
-interval=300
+[docker]
+interval=2
 
 [ext_ip]
-label= 
 interval=30
 
 # Memory usage
@@ -80,15 +88,13 @@ interval=10
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label= 
 interval=2
-min_width=____10%
 #separator=false
 #
 
 [temperature]
 label= 
-interval=2
+interval=4
 
 #[load_average]
 #interval=10
@@ -96,22 +102,25 @@ interval=2
 [battery]
 interval=30
 
+[weather]
+interval=300
+
 [cal]
-label= 
-command=date '+%a %b %d'; [[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
+command=printf "  $(date '+%a %b %d')\n  $(date '+%m/%d')\n"
 interval=30
 
 [clock]
-label= 
-command=date '+%k:%M %Z'
+command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
 interval=10
 
 [red-hat]
 interval=once
+# separator=false
+# separator_block_width=30
 
-[lastsep]
+# [lastsep]
 # command=echo " | "
 # command=echo "​"
-command=echo ""
-separator_block_width=5
-interval=once
+# command=echo ""
+# separator_block_width=0
+# interval=once

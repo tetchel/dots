@@ -154,7 +154,7 @@ bindsym $mod+r mode "resize"
 # Exciting new things!
 
 # Assign screenlayout
-exec ~/bin/screen-layout
+exec --no-startup-id ~/bin/screen-layout
 bindsym $mod+shift+r exec --no-startup-id ~/bin/screen-layout
 
 # Lockscreen
@@ -162,8 +162,8 @@ bindsym $mod+o exec ~/bin/screen-lock
 bindsym $mod+shift+o exec ~/bin/screen-lock suspend
 
 # Screenshot
-bindsym --release Print exec --no-startup-id "maim -s | xclip -selection clipboard -t image/png"
-bindsym --release $mod+shift+Print exec --no-startup-id "maim -s -d 2 | xclip -selection clipboard -t image/png"
+bindsym --release Print exec --no-startup-id "flameshot gui"
+bindsym --release $mod+shift+Print exec --no-startup-id "flameshot screen"
 bindsym --release $mod+Print exec --no-startup-id "maim -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png"
 
 # Emoji picker
@@ -195,7 +195,8 @@ client.unfocused        $unborder   $unfocus    $lightext
 client.focused_inactive $unborder   $unfocus    $lightext
 client.urgent           $urgent     $urgent     $lightext
 
-focus_on_window_activation smart
+# focus_on_window_activation smart
+focus_on_window_activation focus
 hide_edge_borders smart
 
 for_window [window_role="pop-up"] floating enable
@@ -225,6 +226,7 @@ workspace 1 output primary
 # assign [class="(?i)rxvt"] 1
 # assign [class="(?i)firefox"] 2
 assign [class="(?i)slack"] 4
+assign [class="(?i)spotify"] 4
 
 set $workspace_min_width 50
 set $bar_font DejaVu Sans, FontAwesome 5 Free, FontAwesome 5 Brands, 12
@@ -232,8 +234,6 @@ set $bar_font DejaVu Sans, FontAwesome 5 Free, FontAwesome 5 Brands, 12
 # set $bar_monitor DP-3
 
 bar {
-    # output $bar_monitor
-    #tray_output primary
     output primary
     tray_output primary
     tray_padding 0
@@ -242,10 +242,11 @@ bar {
     font pango: $bar_font
     workspace_min_width $workspace_min_width
 
+    # i3bar_command i3bar --transparency
     status_command i3blocks
 
     colors {
-        background #111111
+        background #111111aa
         statusline #ffffff
         separator  #aaaaaa
 
@@ -254,9 +255,9 @@ bar {
         #separator          $transparent
 
         #                   border              bg                   text
-		#focused_workspace   
-		#inactive_workspace 
-        #urgent_workspace  
+		# focused_workspace   
+		# inactive_workspace 
+        # urgent_workspace  
     }
 }
 
@@ -268,18 +269,28 @@ bar {
 
     workspace_min_width $workspace_min_width
     
-    
+    # i3bar_command i3bar --transparency
+
+    colors {
+        background #111111aa
+        statusline #ffffff
+        separator  #aaaaaa
+    }
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
 exec --no-startup-id compton -b
-exec --no-startup-id feh --bg-fill ~/pictures/walls/colca.jpg ~/pictures/walls/salkantay.jpg
 exec --no-startup-id systemctl --user start xfce4-notifyd
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pasystray -a
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id ~/bin/wallpapers
+exec --no-startup-id ~/bin/autolock | tee -a ~/bin/screen-lock-auto.log
 
 exec --no-startup-id i3-msg 'workspace 1; exec urxvt'
 exec --no-startup-id i3-msg 'workspace 2; exec firefox'
 exec --no-startup-id i3-msg 'workspace 4; exec slack'
+
+# Mouse accel speed
+exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 320 0.2

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -x
+set -eEu -o pipefail
+
+stonk=${1:-}
+if [[ -z $stonk ]]; then
+    echo "no stonk provided"
+    exit 1
+fi
+
+echo "Change stonk to $stonk"
+
+# sed -i -E "s/(\[stonk\]\ninstance=).*\b/\\1${stonk}/" ~/.config/i3blocks/config
+sed -E "s/(\[stonk\]\\ninstance=).*\b/\\1${stonk}/" ~/.config/i3blocks/config
+# i3-msg restart

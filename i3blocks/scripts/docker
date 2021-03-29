@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+no_containers=$(docker ps -q | wc -l)
+no_open_containers=$(podman ps -q | wc -l)
+
+no_containers=$(echo "$no_containers + $no_open_containers" | bc)
+
+color="#0db7ed"
+echo "<span color='$color'></span>  $no_containers"
+echo "<span color='$color'></span>  $no_containers"

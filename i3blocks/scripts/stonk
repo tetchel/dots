@@ -24,6 +24,9 @@ elif os.environ.get('BLOCK_INSTANCE'):
 else:
     ticker = 'SPY'
 
+ticker = ticker.strip().upper()
+# print('TICKER "{}"'.format(ticker))
+
 interval = '1m'
 
 url=(
@@ -37,16 +40,41 @@ url=(
 response = urllib.request.urlopen(url).read()
 
 ticker_data = json.loads(response)
+# print(ticker_data)
 ticker_data = ticker_data['chart']['result'][0]
 # with open(ticker + '.json', 'w') as outfile:
 #   json.dump(ticker_data, outfile)
 
 close_prices = ticker_data['indicators']['quote'][0]['close']
 current_price = close_prices[-1]
-last_price = close_prices[-2]
+# backtrack 1 tick because sometimes data is missing
+if not current_price:
+    current_price = close_prices[-2]
 
-change_price = round(last_price - current_price, 2)
-change_pct = str(round(change_price / last_price * 100, 1)) + '%'
+# today's open
+open_time=ticker_data['meta']['tradingPeriods']['regular'][0][0]['start']
+open_time = int(open_time)
+
+for (i, t) in enumerate(ticker_data['timestamp']):
+    # print('i={} t={}'.format(i, t))
+    if t == open_time:
+        open_time_index=i
+        break
+
+compare_price=ticker_data['indicators']['quote'][0]['open'][open_time_index]
+
+# previous close 
+# compare_price = ticker_data['meta']['previousClose']
+
+# minute-to-minute
+# compare_price = close_prices[-2]
+# if compare_price == None:
+#     # backtrack 1 tick because sometimes data is missing
+#     compare_price = close_prices[-3]
+
+# print('compare_price ' + str(compare_price))
+change_price = round(current_price - compare_price, 3)
+change_pct = str(round(change_price / compare_price * 100, 3)) + '%'
 
 color = "#aa0000"
 if change_price > 0:

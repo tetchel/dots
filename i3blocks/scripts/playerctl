@@ -4,7 +4,19 @@ import os
 import sys
 from subprocess import PIPE, Popen
 
+SPOTIFY_PLAYER= 'spotify'
+playerctl_player=''
+
+def playerctl(*cmd): 
+    cmd = list(cmd)
+    cmd.insert(0, 'playerctl')
+    if playerctl_player:
+        cmd.insert(1, '--player={}'.format(playerctl_player))
+    
+    return run(*cmd)
+
 def run(*cmd): 
+    # print(cmd)
     p = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
 
@@ -12,6 +24,20 @@ def run(*cmd):
         raise Exception(err.decode('utf-8').strip())
 
     return output.decode('utf-8').strip()
+
+if os.environ.get('BLOCK_INSTANCE') == SPOTIFY_PLAYER:
+    playerctl_player = SPOTIFY_PLAYER
+else:
+    players = playerctl("--list-all").splitlines()
+    players = [p for p in players if SPOTIFY_PLAYER != p]
+
+    if len(players) > 0:
+        playerctl_player = players[0]
+    else:
+        # NO players other than spotify
+        sys.exit(0)
+
+# print('player=' + playerctl_player)
 
 def get_metadata_item(metadata, item):
     if item == 'trackid' or item == 'length' or item == 'artUrl':
@@ -23,24 +49,51 @@ def get_metadata_item(metadata, item):
     result = line.split(meta_name, 1)[1].strip()
     return result
 
+def escape(s):
+    return s.replace("&", "&amp;")
+
 button = os.environ.get('BLOCK_BUTTON')
 if button == '1':
-    run('playerctl', 'play-pause')
+    run('i3-msg', '[class="(?i)spotify"] focus')
+elif button == '2' or button == '3':
+    playerctl('play-pause')
+elif button == '4':
+    playerctl('next')
+elif button == '5':
+    playerctl('previous')
 
 try:
-    song_data = run('playerctl', 'metadata').splitlines()
+    song_data = playerctl('metadata').splitlines()
 except Exception as e:
     sys.exit()
     pass
 
-title = get_metadata_item(song_data, 'title')
-artist = get_metadata_item(song_data, 'artist')
+title = escape(get_metadata_item(song_data, 'title'))
+artist = escape(get_metadata_item(song_data, 'artist'))
+player = song_data[0].split()[0]
 
-status=run('playerctl', 'status')
+status=playerctl('status')
 if status == 'Playing':
-    icon=''
+    # status_icon=''
+    status_icon=''
 else:
-    icon=''
+    # status_icon=''
+    status_icon=''
 
-print('{} - {}  {}'.format(title, artist, icon))
-print('{} {}'.format(title, icon))
+title_artist = title
+if artist:
+    title_artist = '{} - {}'.format(title, artist)
+
+SPOTIFY_ICON = '<span color="#1DB953"> </span>'
+NETFLIX_ICON = '<span color="#A52924"> </span>'
+OTHER_ICON = ' '
+
+if player == 'spotify':
+    icon = SPOTIFY_ICON
+elif title.lower() == 'netflix':
+    icon = NETFLIX_ICON
+else: 
+    icon = OTHER_ICON
+
+print('{} {}  {}'.format(icon, title_artist, status_icon))
+print('{} {}  {}'.format(icon, title, status_icon))

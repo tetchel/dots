@@ -76,19 +76,6 @@ alias dnew='docker run -d -p 8008:9080 -p 8009:9443 --name wlpTest websphere-lib
 alias clearimages="docker images | grep "wlp_" | awk '{print $1}' | xargs docker rmi"
 alias dlogs='docker logs'
 
-# microclimate etc
-alias fwbash="dbash file-watcher"
-alias fwlogs="dlbn file-watcher"
-alias recw="cd ~/programs/codewind; ./run.sh --dev; cd - >/dev/null"
-alias rffw="cd ~/programs/microclimate/docker/file-watcher/server/; npm run pushLocal && echo 'RFFW success'; cd - >/dev/null"
-alias vpj="vim package.json"
-alias nrb="npm run build"
-alias ns="npm start"
-alias leclipse='/Applications/eclipse/jee-photon/Eclipse.app/Contents/MacOS/eclipse &'
-alias loginToArtf='docker login sys-mcs-docker-local.artifactory.swg-devops.com'
-alias deleteTestProjects="set -x; ~/bin/delete-projects.py localhost:10000 test -f; rm -rf ~/codewind-vscode-testworkspace/test*; set +x"
-alias vmpw="cat ~/.vmpw | pbcopy"
-
 # i3
 alias i3conf='vim ~/.config/i3/config'
 alias blocksconf='gvim ~/.config/i3blocks/config'
@@ -130,3 +117,5 @@ alias argo-pw="kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-serve
 alias argo="argocd --server='localhost:8080' --insecure --plaintext"
 #alias argo-stop="docker stop $(docker ps | grep argocd-test-tools | awk '{ print $1 }')"
 alias argo-install="kubectl delete ns argocd; kubectl create ns argocd && kubectl apply -n argocd --force -f /Users/tim/go/src/github.com/argoproj/argo-cd/manifests/install.yaml"
+
+alias rha="cd ~/src/redhat-actions"

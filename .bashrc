@@ -50,7 +50,6 @@ git_ac=~/programs/clones/git-completion.bash
 # PATH additions
 export PATH="$PATH:/usr/local/bin/"
 export PATH="$PATH:~/bin"
-export PATH="$PATH:/opt/apache-maven-3.5.4/bin"
 export PATH="$PATH:/Users/tim/.kube/plugins"
 export ARGOCD_API_URL="http://[::1]:8080"
 
@@ -64,8 +63,9 @@ set editing-mode vi
 
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
-export PATH="$PATH:/usr/local/go/bin"
-export GOPATH="$HOME/go"
+export GOROOT="/usr/local/go"
+export PATH="$PATH:$GOROOT/bin"
+export GOPATH="$HOME/src/go"
 export PATH="$PATH:$GOPATH/bin"
 
 # export MSBuildSDKsPath=/usr/share/dotnet/sdk/$(dotnet --version)/Sdks

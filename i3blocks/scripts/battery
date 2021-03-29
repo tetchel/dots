@@ -71,8 +71,9 @@ if ($status eq 'Discharging') {
     }
 }
 
-$short_text = $icon;
+#$short_text = $icon;
 $full_text = "$icon$percent_str";
+$short_text = "$icon$percent_str";
 
 # This displays the remaining time to empty or to change
 # but it is not really accurate so why bother

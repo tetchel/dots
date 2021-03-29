@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+bg_primary=${1:-~/pictures/walls/salkantay.jpg}
+bg_secondary=${2:-~/pictures/walls/colca.jpg}
+
+set -x
+feh --bg-fill $bg_primary $bg_secondary
