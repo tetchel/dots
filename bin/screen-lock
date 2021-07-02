@@ -8,7 +8,7 @@ set -eE -o pipefail
 i3lock -c 000000 -i $LOCK_IMG -ef
 
 if [ "${1:-}" = "suspend" ]; then
-    sleep 10;
-    xset dpms force off
+    sleep 2;
+    systemctl suspend
 fi
 

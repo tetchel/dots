@@ -33,7 +33,7 @@ font pango:DejaVu Sans 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec alacritty 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -125,7 +125,7 @@ bindsym $mod+Shift+p restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# resize window (you can also use the mouse for that)
+# resize window (you can also use RMB)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
@@ -134,9 +134,9 @@ mode "resize" {
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
         bindsym l resize shrink width 5 px or 5 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym j resize shrink height 10 px or 10 ppt
         bindsym semicolon resize grow width 5 px or 5 ppt
+        bindsym j resize shrink height 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -279,6 +279,7 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
+exec --no-startup-id xset b 0
 exec --no-startup-id compton -b
 exec --no-startup-id systemctl --user start xfce4-notifyd
 exec --no-startup-id xfce4-power-manager
@@ -288,9 +289,12 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id ~/bin/wallpapers
 exec --no-startup-id ~/bin/autolock | tee -a ~/bin/screen-lock-auto.log
 
-exec --no-startup-id i3-msg 'workspace 1; exec urxvt'
+exec --no-startup-id i3-msg 'workspace 1; exec alacritty'
 exec --no-startup-id i3-msg 'workspace 2; exec firefox'
 exec --no-startup-id i3-msg 'workspace 4; exec slack'
 
 # Mouse accel speed
-exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 320 0.2
+exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0.2
+exec --no-startup-id xinput set-prop 'pointer:Logitech MX Vertical' 'libinput Accel Speed' 0.2
+# turn off beep
+exec --no-startup-id xset b off

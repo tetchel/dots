@@ -19,7 +19,8 @@ alias l='ls -l'
 alias ll='ls -l'
 alias la='ls -lA'
 alias lt='ls -lt'
-alias screenoff='xset -display :0.0 dpms force off'
+alias screensoff='xset -display :0.0 dpms force off'
+alias screenoff='xrandr --output eDP-1 --off'
 alias gcc_='gcc -g -Wall -o'    #followed by "outname srcname.c"
 #alias grep="grep -i --color=tty"    # I always forget
 alias df='df -h'        # human readable
@@ -119,3 +120,5 @@ alias argo="argocd --server='localhost:8080' --insecure --plaintext"
 alias argo-install="kubectl delete ns argocd; kubectl create ns argocd && kubectl apply -n argocd --force -f /Users/tim/go/src/github.com/argoproj/argo-cd/manifests/install.yaml"
 
 alias rha="cd ~/src/redhat-actions"
+
+alias chromedb="google-chrome --remote-debugging-port=9222 &"

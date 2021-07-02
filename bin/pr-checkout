@@ -16,13 +16,16 @@ if [[ -z $branchname ]]; then
 fi
 
 upstream_exists=1
-git remote -v upstream >/dev/null 2>&1 && upstream_exists=0
+git remote -v | grep upstream >/dev/null 2>&1 && upstream_exists=0
 
 remote="origin"
 if [[ $upstream_exists -eq 0 ]]; then
     remote="upstream"
 fi
 
+echo "Using remote '$remote'"
+
 set -x
 git fetch ${remote} pull/${id}/head:${branchname}
 git checkout $branchname
+git log -1

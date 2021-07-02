@@ -5,4 +5,4 @@ if [[ -z "$dest" ]]; then
     dest="."
 fi
 
-\cp -rvf ~/.bashrc ~/.bash_aliases ~/.bash_custom ~/.config/dunst/ ~/.config/i3blocks/ ~/.config/i3 ~/.config/gsimplecal/ ~/.vimrc ~/pictures/walls ~/.Xdefaults ~/bin ~/.config/Code/User/settings.json ~/.config/Code/User/keybindings.json $dest
+\cp -rvf ~/.bashrc ~/.bash_aliases ~/.bash_custom ~/.config/dunst/ ~/.config/i3blocks/ ~/.config/i3 ~/.config/gsimplecal/ ~/.vimrc ~/pictures/walls ~/.Xdefaults ~/bin ~/.config/Code/User/settings.json ~/.config/Code/User/keybindings.json ~/.config/alacritty.yml $dest

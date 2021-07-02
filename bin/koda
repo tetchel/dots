@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+onterm() {
+  set +x
+  echo "Shutting down..."
+  kill $server_pid
+  echo "Killed server"
+  # kill $ngrok_pid
+  # echo "Killed ngrok"
+}
+
+trap onterm SIGTERM
+trap onterm SIGINT
+
+set -eEx
+
+# firefox https://koda.ngrok.io
+firefox http://localhost:8080
+firefox https://meet.google.com
+
+/home/tim/src/go/src/github.com/tetchel/beeper/server &
+server_pid=$!
+
+#ngrok start koda &
+#ngrok_pid=$!
+
+wait $server_pid

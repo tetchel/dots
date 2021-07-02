@@ -50,7 +50,7 @@ git_ac=~/programs/clones/git-completion.bash
 # PATH additions
 export PATH="$PATH:/usr/local/bin/"
 export PATH="$PATH:~/bin"
-export PATH="$PATH:/Users/tim/.kube/plugins"
+export PATH="$PATH:$HOME/.yarn/bin"
 export ARGOCD_API_URL="http://[::1]:8080"
 
 export SELENIUM_BROWSER=chrome
@@ -67,6 +67,10 @@ export GOROOT="/usr/local/go"
 export PATH="$PATH:$GOROOT/bin"
 export GOPATH="$HOME/src/go"
 export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 # export MSBuildSDKsPath=/usr/share/dotnet/sdk/$(dotnet --version)/Sdks
 
+if [[ $(command -v xset) ]]; then
+    xset b off
+fi

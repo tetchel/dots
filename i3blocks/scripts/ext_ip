@@ -1,19 +1,20 @@
 #!/bin/bash
 
-EXT_IP=$(curl -sfL ifconfig.me/ip)
+EXT_IP=$(curl -sSfL ifconfig.co)
+
+icon=""
 
 if [[ $? -eq 0 ]]; then
     # got a valid response
     color="#038c2a"
-    icon=""
-    value=$EXT_IP
+#    value=$EXT_IP
 else
     color="#FF0000"
-    icon=""
-    value="Offline"
+#    value="Offline"
 fi
 
-echo "<span color='$color'>$icon</span>  $value"
+# echo "<span color='$color'>$icon</span>  $value"
+echo "<span color='$color'>$icon</span>"
 echo "<span color='$color'>$icon</span>"
 
 

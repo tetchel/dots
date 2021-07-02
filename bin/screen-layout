@@ -4,7 +4,8 @@ set -x
 set -u -o pipefail
 
 laptop="eDP-1"
-external_bigmon="DP-3"
+#external_bigmon="DP-3"
+external_bigmon="DP-2"
 external_smallmon="DP-1"
 
 monitors=$(xrandr | grep connected | grep -v disconnected)

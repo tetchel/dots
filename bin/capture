@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# https://github.com/dbermond/screencast
+outdir=~/pictures/screencasts
+
+set -ex
+
+video_args="-W -I /dev/video4 -P br"
+if [[ $@ == "*no-video*" ]]; then
+    video_args="" 
+fi
+    
+
+#screencast -o $outdir -u -s 2560x1440 -p 1920,0 -i pulse $video_args
+screencast -o $outdir -u -s 2560x1440 -p 1920,0 -i pulse 
+# screencast -o $outdir -u -S
+
+echo "Output to $outdir"

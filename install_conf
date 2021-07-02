@@ -18,7 +18,7 @@ mkdir -p ~/bin ~/programs ~/pictures ~/downloads ~/documents
 if [[ "$1" == "gui" ]]; then
     \cp -vrf walls/ ~/pictures/
 
-    \cp -vrf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ ~/.config
+    \cp -vrf dunst/ i3blocks/ i3/ gsimplecal/ i3lock/ alacritty.yml ~/.config
     \cp -vrf settings.json ~/.config/Code/User/settings.json 
     \cp -vrf keybindings.json ~/.config/Code/User/keybindings.json
 else

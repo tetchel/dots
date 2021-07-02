@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eEuo pipefail
+
+tags=$@
+
+echo "Retagging '$tags'"
+
+for tag in $tags; do
+    echo "git tag -d $tag"
+    git tag -d $tag
+    echo "git tag $tag"
+    git tag $tag
+    echo "✓ Retagged $tag"
+done
+
+git log -1

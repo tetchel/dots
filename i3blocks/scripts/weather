@@ -4,8 +4,12 @@ import urllib.request
 import json
 import os
 
-city_name='Toronto, ON'
-city=6167865
+cities = [
+    [ 'Toronto', 6167865 ],
+    [ 'Haliburton', 6942554 ],
+]
+
+[city_name, city] = cities[0]
 
 if os.environ.get('BLOCK_BUTTON') == '1':
     os.system("firefox https://www.accuweather.com/en/ca/toronto/m5h/weather-forecast/55488")
@@ -82,7 +86,7 @@ elif code.startswith('90'):
     icon=''
     color='#FFF426'
 
-output='<span color="{}">{}</span>  {}°C'.format(color, icon, str(temp))
+output='<span color="{}">{}</span>  {}°C  {}'.format(color, icon, str(temp), city_name)
 print(output)
 print(output)
 #print("")

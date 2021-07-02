@@ -8,21 +8,20 @@ Xft.lcdfilter: lcddefault
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-URxvt*font: xft:Monospace:size=10,xft:FontAwesome:style=Regular
-URxvt*boldFont: xft:Monospace:bold:size=10
+URxvt.font: xft:Monospace:size=10
+URxvt.boldFont: xft:Monospace:bold:size=10
 
 ! click on links
 URxvt.urlLauncher     : firefox
 URxvt.matcher.button  : 1
 
-Xft.antialias: true
 URxvt*letterSpace: -1
 URxvt.scrollBar: false
 URxvt.cursorUnderline: true
 
-# copy-paste with keyboard
 URxvt.iso14755: False
-URxvt.perl-ext-common: default,matcher,selection-to-clipboard
+URxvt.perl-lib: /usr/lib/urxvt/perl/
+URxvt.perl-ext-common: default,matcher,selection-to-clipboard,resize-font
 URxvt.clipboard.autocopy: true
 URxvt.keysym.Control-V: eval:paste_clipboard
 
