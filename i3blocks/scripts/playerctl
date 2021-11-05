@@ -96,4 +96,4 @@ else:
     icon = OTHER_ICON
 
 print('{} {}  {}'.format(icon, title_artist, status_icon))
-print('{} {}  {}'.format(icon, title, status_icon))
+print('{} {}  {}'.format(icon, title[:32] + ' ...', status_icon))

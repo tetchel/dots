@@ -68,9 +68,12 @@ export PATH="$PATH:$GOROOT/bin"
 export GOPATH="$HOME/src/go"
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:/snap/bin/"
+export PATH="$PATH:/home/tim/.local/bin"
 
 # export MSBuildSDKsPath=/usr/share/dotnet/sdk/$(dotnet --version)/Sdks
 
 if [[ $(command -v xset) ]]; then
     xset b off
 fi
+alias ic="ibmcloud"

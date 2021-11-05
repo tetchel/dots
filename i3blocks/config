@@ -105,13 +105,23 @@ interval=30
 [weather]
 interval=300
 
-[cal]
-command=printf "  $(date '+%a %b %d')\n  $(date '+%m/%d')\n"
-interval=30
+[clock]
+TZ=Asia/Kolkata
+command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
+interval=10
+
+[clock]
+TZ=America/Toronto
+command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
+interval=10
 
 [clock]
 command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
 interval=10
+
+[cal]
+command=printf "  $(date '+%a %b %d')\n  $(date '+%m/%d')\n"
+interval=30
 
 [red-hat]
 interval=once

@@ -104,7 +104,7 @@
     "files.trimFinalNewlines": true,
     "editor.suggestSelection": "first",
     "editor.renderWhitespace": "none",
-    "editor.tabSize": 4,
+    "editor.tabSize": 2,
     "javascript.updateImportsOnFileMove.enabled": "always",
     "liveServer.settings.donotShowInfoMsg": true,
     "workbench.startupEditor": "welcomePage",
@@ -172,7 +172,7 @@
         "staticcheck": false,
     },
     "editor.fontSize": 13,
-    "python.languageServer": "Microsoft",
+    "python.languageServer": "Default",
     "window.menuBarVisibility": "toggle",
     "redhat.telemetry.enabled": true,
     "js/ts.implicitProjectConfig.checkJs": true,
@@ -196,5 +196,21 @@
     "editor.lineNumbers": "on",
     "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
     "editor.wordWrap": "off",
-    "editor.inlineSuggest.enabled": true
+    "editor.inlineSuggest.enabled": true,
+    "editor.bracketPairColorization.enabled": true,
+    "javascript.inlayHints.parameterNames.enabled": true,
+    "javascript.inlayHints.variableTypes.enabled": true,
+
+    "css.validate": false,
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "workbench.editorAssociations": {
+        "*.svg": "default"
+    },
+    "editor.formatOnSave": true,
+
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }

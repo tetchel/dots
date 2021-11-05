@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eE
+
+login=$(crc console --credentials | grep admin | cut -d\' -f2)
+
+echo "+" "$login"
+
+$login
+

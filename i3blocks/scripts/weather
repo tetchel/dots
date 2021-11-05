@@ -5,14 +5,15 @@ import json
 import os
 
 cities = [
-    [ 'Toronto', 6167865 ],
-    [ 'Haliburton', 6942554 ],
+    [ 'Toronto', 6167865, 'https://www.accuweather.com/en/ca/toronto/m5h/weather-forecast/55488' ],
+    [ 'Haliburton', 6942554, 'https://www.accuweather.com/en/ca/haliburton/k0m/weather-forecast/54943' ],
+    [ 'Victoria', 6174041, 'https://www.accuweather.com/en/ca/victoria/v8w/weather-forecast/47163' ]
 ]
 
-[city_name, city] = cities[0]
+[ city_name, city, city_url ] = cities[2]
 
 if os.environ.get('BLOCK_BUTTON') == '1':
-    os.system("firefox https://www.accuweather.com/en/ca/toronto/m5h/weather-forecast/55488")
+    os.system('firefox ' + city_url)
 
 key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
 key = ''
@@ -86,7 +87,8 @@ elif code.startswith('90'):
     icon=''
     color='#FFF426'
 
-output='<span color="{}">{}</span>  {}°C  {}'.format(color, icon, str(temp), city_name)
-print(output)
-print(output)
+long_output='<span color="{}">{}</span>  {}°C  {}'.format(color, icon, str(temp), city_name)
+print(long_output)
+short_output='<span color="{}">{}</span>  {}°C'.format(color, icon, str(temp))
+print(short_output)
 #print("")

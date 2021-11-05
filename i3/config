@@ -262,7 +262,11 @@ bar {
 }
 
 bar {
-    output DP-1
+    # output bar on secondary screen 
+    
+    # output DP-1
+    output eDP-1
+    # output none
     tray_output none
     position top
     font pango: DejaVu Sans, FontAwesome 10
@@ -298,3 +302,4 @@ exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Acce
 exec --no-startup-id xinput set-prop 'pointer:Logitech MX Vertical' 'libinput Accel Speed' 0.2
 # turn off beep
 exec --no-startup-id xset b off
+exec --no-startup-id flameshot

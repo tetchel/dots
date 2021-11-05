@@ -4,21 +4,19 @@ set -x
 set -u -o pipefail
 
 laptop="eDP-1"
-#external_bigmon="DP-3"
-external_bigmon="DP-2"
-external_smallmon="DP-1"
+external_bigmon="DP-3"
+#external_bigmon="DP-2"
+# external_smallmon="DP-1"
 
 monitors=$(xrandr | grep connected | grep -v disconnected)
 if echo "${monitors}" | grep -q $external_bigmon; then
     echo "Desktop configuration"
-    xrandr --output $laptop --off
-    xrandr --output $external_smallmon --mode 1920x1080 --pos 0x0 --rotate normal
-    xrandr --output $external_bigmon --primary --mode 2560x1440 --pos 1920x0 --rotate normal
+    xrandr --output $laptop --mode 1920x1080
+    xrandr --output $external_bigmon --primary --mode 2560x1440 --pos 1920x0 
     notify-send "Desktop config" -i "video-display"
 else
     echo "Laptop configuration"
     xrandr --output $laptop --mode 1920x1080 --primary \
-        --output $external_smallmon --off \
         --output $external_bigmon --off 
     notify-send "Laptop config" -i "video-display"
 fi

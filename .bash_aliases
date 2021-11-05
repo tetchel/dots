@@ -122,3 +122,5 @@ alias argo-install="kubectl delete ns argocd; kubectl create ns argocd && kubect
 alias rha="cd ~/src/redhat-actions"
 
 alias chromedb="google-chrome --remote-debugging-port=9222 &"
+
+alias ko='cd ~/src/go/src/github.com/tetchel/beeper/ && pwd && ./server'
