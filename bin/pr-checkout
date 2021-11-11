@@ -28,4 +28,4 @@ echo "Using remote '$remote'"
 set -x
 git fetch ${remote} pull/${id}/head:${branchname}
 git checkout $branchname
-git log -1
+git --no-pager log -1 
