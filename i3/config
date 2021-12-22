@@ -105,6 +105,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
+bindsym $mod+grave workspace 10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -222,12 +223,6 @@ bindsym ctrl+$mod+v [class="(?i)code"] focus
 # Bind workspace 1 to primary
 workspace 1 output primary
 
-# Bind windows to workspaces
-# assign [class="(?i)rxvt"] 1
-# assign [class="(?i)firefox"] 2
-assign [class="(?i)slack"] 4
-assign [class="(?i)spotify"] 4
-
 set $workspace_min_width 50
 set $bar_font DejaVu Sans, FontAwesome 5 Free, FontAwesome 5 Brands, 12
 # set $bar_font DejaVu Sans, FontAwesome 12
@@ -263,10 +258,11 @@ bar {
 
 bar {
     # output bar on secondary screen 
-    
-    # output DP-1
-    output eDP-1
+   
     # output none
+    # output DP-1
+    # output eDP-1
+    output HDMI-3
     tray_output none
     position top
     font pango: DejaVu Sans, FontAwesome 10
@@ -283,9 +279,11 @@ bar {
     status_command i3blocks -c ~/.config/i3blocks/config-empty
 }
 
+# turn off beep
 exec --no-startup-id xset b 0
 exec --no-startup-id compton -b
 exec --no-startup-id systemctl --user start xfce4-notifyd
+exec --no-startup-id systemctl start docker
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pasystray -a
 exec --no-startup-id nm-applet
@@ -293,13 +291,19 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id ~/bin/wallpapers
 exec --no-startup-id ~/bin/autolock | tee -a ~/bin/screen-lock-auto.log
 
-exec --no-startup-id i3-msg 'workspace 1; exec alacritty'
-exec --no-startup-id i3-msg 'workspace 2; exec firefox'
-exec --no-startup-id i3-msg 'workspace 4; exec slack'
+exec --no-startup-id flameshot
+exec --no-startup-id alacritty
+exec --no-startup-id code
+exec --no-startup-id firefox
+exec --no-startup-id slack
+exec --no-startup-id thunderbird
 
 # Mouse accel speed
-exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0.2
+# exec --no-startup-id xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Accel Speed' 0.2
 exec --no-startup-id xinput set-prop 'pointer:Logitech MX Vertical' 'libinput Accel Speed' 0.2
-# turn off beep
-exec --no-startup-id xset b off
-exec --no-startup-id flameshot
+
+# Bind windows to workspaces
+assign [class="(?i)slack"] 4
+assign [class="(?i)spotify"] 5
+
+

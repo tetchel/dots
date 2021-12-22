@@ -53,9 +53,9 @@ def escape(s):
     return s.replace("&", "&amp;")
 
 button = os.environ.get('BLOCK_BUTTON')
-if button == '1':
-    run('i3-msg', '[class="(?i)spotify"] focus')
-elif button == '2' or button == '3':
+# if button == '1':
+#    run('i3-msg', '[class="(?i)spotify"] focus')
+if button == '1' or button == '2' or button == '3':
     playerctl('play-pause')
 elif button == '4':
     playerctl('next')

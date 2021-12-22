@@ -1,216 +1,302 @@
 {
-    "vim.handleKeys": {
-        "<C-d>": true,
-        "<C-v>": false,
-        "<C-c>": false,
-        "<C-x>": false,
-        "<C-w>": false,
-        "<C-a>": false,
-        "<C-n>": false,
-    },
-
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["j", "j"],
-            "after": ["<Esc>"]
-        },
-        {
-            "before": [ "<Up>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Down>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Left>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Right>" ],
-            "after": [ "<Noop>" ]
-        },
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [ "h" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ ";" ],
-            "after": [ "l" ]
-        },
-        {
-            "before": [ "l" ],
-            "after": [ "h" ]
-        },
-        {
-            "before": [ "<Up>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Down>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Left>" ],
-            "after": [ "<Noop>" ]
-        },
-        {
-            "before": [ "<Right>" ],
-            "after": [ "<Noop>" ]
-        },
-    ],
-    "vim.visualModeKeyBindingsNonRecursive": [
+  "vim.handleKeys": {
+    "<C-d>": true,
+    "<C-v>": false,
+    "<C-c>": false,
+    "<C-x>": false,
+    "<C-w>": false,
+    "<C-a>": false,
+    "<C-n>": false,
+  },
+  "vscode-graphql.showExecCodelens": false,
+  "vim.insertModeKeyBindings": [
     {
-        "before": [ "h" ],
-        "after": [ "<Noop>" ]
+      "before": [
+      ],
+      "after": [
+      ]
     },
     {
-        "before": [ ";" ],
-        "after": [ "l" ]
+      "before": [
+        "<Up>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
     {
-        "before": [ "l" ],
-        "after": [ "h" ]
+      "before": [
+        "<Down>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
     {
-        "before": [ "<Up>" ],
-        "after": [ "<Noop>" ]
+      "before": [
+        "<Left>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
     {
-        "before": [ "<Down>" ],
-        "after": [ "<Noop>" ]
+      "before": [
+        "<Right>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
+    },
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "h"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
     {
-        "before": [ "<Left>" ],
-        "after": [ "<Noop>" ]
+      "before": [
+        ";"
+      ],
+      "after": [
+        "l"
+      ]
     },
     {
-        "before": [ "<Right>" ],
-        "after": [ "<Noop>" ]
+      "before": [
+        "l"
+      ],
+      "after": [
+        "h"
+      ]
     },
-],
-
-    "workbench.editor.enablePreview": false,
-    "workbench.list.openMode": "doubleClick",
-    "editor.minimap.enabled": false,
-    "window.restoreWindows": "none",
-    "breadcrumbs.enabled": true,
-    "window.nativeTabs": true,
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "editor.suggestSelection": "first",
-    "editor.renderWhitespace": "none",
-    "editor.tabSize": 2,
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "liveServer.settings.donotShowInfoMsg": true,
-    "workbench.startupEditor": "welcomePage",
-    "typescript.tsserver.log": "off",
-    "workbench.sideBar.location": "left",
-    "java.configuration.checkProjectSettingsExclusions": false,
-    "editor.multiCursorModifier": "alt",
-    "git.alwaysSignOff": true,
-    "files.exclude": {
-        ".extensions": true,
-        ".idc": true,
-        ".logs": true,
-        ".projects": true,
-        "*.tsbuildinfo": true,
-        "**/*.d.ts.map": true,
-        "**/*.js.map": true
+    {
+      "before": [
+        "<Up>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
-    "editor.accessibilitySupport": "off",
-    "gitlens.hovers.currentLine.over": "line",
-    "workbench.editor.showTabs": true,
-    "workbench.tree.indent": 11,
-    "debug.onTaskErrors": "abort",
-    "search.exclude": {
-        "*.js.map": true,
-        "dist/**": true,
-        "out/**": true
+    {
+      "before": [
+        "<Down>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
-    "explorer.autoReveal": false,
-    "java.semanticHighlighting.enabled": true,
-    "typescript.format.semicolons": "insert",
-    "go.formatTool": "goimports",
-    "vs-kubernetes": {
-        "vs-kubernetes.minikube-path.mac": "/Users/tim/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+    {
+      "before": [
+        "<Left>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
-    "latex-workshop.view.pdf.viewer": "tab",
-    "java.configuration.runtimes": [
-
-    ],
-    "css.lint.float": "warning",
-    "css.lint.duplicateProperties": "warning",
-    "css.lint.zeroUnits": "warning",
-    "typescript.preferences.quoteStyle": "double",
-    "javascript.preferences.quoteStyle": "double",
-    "go.useLanguageServer": true,
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-        },
-        // Optional: Disable snippets, as they conflict with completion ranking.
-        "editor.snippetSuggestions": "none",
+    {
+      "before": [
+        "<Right>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
-    "[go.mod]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-        },
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "h"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
-    "gopls": {
-        // Add parameter placeholders when completing a function.
-        "usePlaceholders": true,
-
-        // If true, enable additional analyses with staticcheck.
-        // Warning: This will significantly increase memory usage.
-        "staticcheck": false,
+    {
+      "before": [
+        ";"
+      ],
+      "after": [
+        "l"
+      ]
     },
-    "editor.fontSize": 13,
-    "python.languageServer": "Default",
-    "window.menuBarVisibility": "toggle",
-    "redhat.telemetry.enabled": true,
-    "js/ts.implicitProjectConfig.checkJs": true,
-    "liveServer.settings.ignoreFiles": [
-        ".vscode/**",
-        "**/*.scss",
-        "**/*.sass",
-        "**/*.tsx?",
-    ],
-    "liveServer.settings.wait": 500,
-    "liveServer.settings.useWebExt": true,
-    "liveServer.settings.NoBrowser": true,
-    "go.toolsManagement.autoUpdate": true,
-    "workbench.editor.decorations.badges": false,
-    "workbench.editor.decorations.colors": false,
-    "gitlens.mode.active": "zen",
-    "window.dialogStyle": "custom",
-    "workbench.editor.untitled.hint": "hidden",
-    "editor.cursorStyle": "line",
-    "editor.insertSpaces": false,
-    "editor.lineNumbers": "on",
-    "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
-    "editor.wordWrap": "off",
-    "editor.inlineSuggest.enabled": true,
-    "editor.bracketPairColorization.enabled": true,
-    "javascript.inlayHints.parameterNames.enabled": true,
-    "javascript.inlayHints.variableTypes.enabled": true,
-
-    "css.validate": false,
-    "editor.quickSuggestions": {
-        "strings": true
+    {
+      "before": [
+        "l"
+      ],
+      "after": [
+        "h"
+      ]
     },
-    "workbench.editorAssociations": {
-        "*.svg": "default"
+    {
+      "before": [
+        "<Up>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
     },
+    {
+      "before": [
+        "<Down>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
+    },
+    {
+      "before": [
+        "<Left>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
+    },
+    {
+      "before": [
+        "<Right>"
+      ],
+      "after": [
+        "<Noop>"
+      ]
+    },
+  ],
+  "workbench.editor.enablePreview": false,
+  "workbench.list.openMode": "doubleClick",
+  "editor.minimap.enabled": false,
+  "window.restoreWindows": "none",
+  "breadcrumbs.enabled": true,
+  "window.nativeTabs": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "editor.suggestSelection": "first",
+  "editor.renderWhitespace": "none",
+  "editor.tabSize": 2,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "workbench.startupEditor": "welcomePage",
+  "typescript.tsserver.log": "off",
+  "workbench.sideBar.location": "left",
+  "java.configuration.checkProjectSettingsExclusions": false,
+  "editor.multiCursorModifier": "alt",
+  "git.alwaysSignOff": true,
+  "files.exclude": {
+    ".extensions": true,
+    ".idc": true,
+    ".logs": true,
+    ".projects": true,
+    "*.tsbuildinfo": true,
+    "**/*.d.ts.map": true,
+    "**/*.js.map": true,
+    "server.log": false
+  },
+  "editor.accessibilitySupport": "off",
+  "gitlens.hovers.currentLine.over": "line",
+  "workbench.editor.showTabs": true,
+  "workbench.tree.indent": 11,
+  "debug.onTaskErrors": "abort",
+  "search.exclude": {
+    "*.js.map": true,
+    "dist/**": true,
+    "out/**": true,
+  },
+  "explorer.autoReveal": false,
+  "java.semanticHighlighting.enabled": true,
+  "go.formatTool": "goimports",
+  "vs-kubernetes": {
+    "vs-kubernetes.minikube-path.mac": "/Users/tim/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+  },
+  "latex-workshop.view.pdf.viewer": "tab",
+  "java.configuration.runtimes": [],
+  "css.lint.float": "warning",
+  "css.lint.duplicateProperties": "warning",
+  "css.lint.zeroUnits": "warning",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "double",
+  "go.useLanguageServer": true,
+  "[go]": {
     "editor.formatOnSave": true,
-
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+      "source.organizeImports": true,
+    },
+    // Optional: Disable snippets, as they conflict with completion ranking.
+    "editor.snippetSuggestions": "none",
+  },
+  "[go.mod]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+    },
+  },
+  "gopls": {
+    // Add parameter placeholders when completing a function.
+    "usePlaceholders": true,
+    // If true, enable additional analyses with staticcheck.
+    // Warning: This will significantly increase memory usage.
+    "staticcheck": false,
+  },
+  "editor.fontSize": 13,
+  "python.languageServer": "Default",
+  "window.menuBarVisibility": "toggle",
+  "redhat.telemetry.enabled": true,
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.tsx?",
+  ],
+  "liveServer.settings.wait": 500,
+  "liveServer.settings.useWebExt": true,
+  "liveServer.settings.NoBrowser": true,
+  "go.toolsManagement.autoUpdate": true,
+  "workbench.editor.decorations.badges": false,
+  "workbench.editor.decorations.colors": false,
+  "gitlens.mode.active": "zen",
+  "window.dialogStyle": "custom",
+  "workbench.editor.untitled.hint": "hidden",
+  "editor.cursorStyle": "line",
+  "editor.lineNumbers": "on",
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  "editor.wordWrap": "off",
+  "editor.inlineSuggest.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "literals",
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "css.validate": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "workbench.editorAssociations": {
+    "*.svg": "default"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.detectIndentation": false,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "terminal.explorerKind": "external",
+  "terminal.external.linuxExec": "alacritty",
+  "mssql.connections": [],
+  "pgsql.connections": [
+    {
+      "host": "localhost",
+      "dbname": "bs_admin",
+      "user": "bs_admin",
+      "password": "asdf",
+      "emptyPasswordInput": false,
+      "port": "5432"
     }
+  ],
+  "eslint.alwaysShowStatus": true,
+  "typescript.tsserver.pluginPaths": [
+    "typescript-plugin-css-modules"
+  ],
+  "search.useIgnoreFiles": false
 }

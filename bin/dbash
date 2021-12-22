@@ -5,4 +5,4 @@ if [[ ! $? ]]; then
     exit $?
 fi
 echo "Connecting to $containerid"
-docker exec -it "$containerid" /bin/sh
+docker exec -it "$containerid" /bin/bash

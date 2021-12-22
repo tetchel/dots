@@ -45,11 +45,11 @@ $cpu_usage eq -1 and die 'Can\'t find CPU information';
 # place if the usage is <10%
 
 if($cpu_usage < 10) {
-    printf " %.1f%%\n", $cpu_usage;
+    printf " %.1f%%\n", $cpu_usage;
     printf "%.1f%%\n", $cpu_usage;
 }
 else {
-    printf "  %.0f%%\n", $cpu_usage;
+    printf "  %.0f%%\n", $cpu_usage;
     printf " %.0f%%\n", $cpu_usage;
 }
 

@@ -58,8 +58,8 @@ interval=1
 # interval=10
 #
 #
-[kubecontext]
-interval=10
+# [kubecontext]
+# interval=10
 
 [docker]
 interval=2
@@ -71,7 +71,7 @@ interval=60
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label= 
+label= 
 interval=10
 
 # Disk usage
@@ -99,16 +99,16 @@ interval=4
 #[load_average]
 #interval=10
 
-[battery]
-interval=30
+# [battery]
+# interval=30
 
 [weather]
-interval=300
+interval=150
 
-[clock]
-TZ=Asia/Kolkata
-command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
-interval=10
+# [clock]
+# TZ=Asia/Kolkata
+# command=printf "  $(date '+%k:%M %Z')\n  $(date '+%k:%M')\n"
+# interval=10
 
 [clock]
 TZ=America/Toronto
@@ -122,8 +122,10 @@ interval=10
 [cal]
 command=printf "  $(date '+%a %b %d')\n  $(date '+%m/%d')\n"
 interval=30
+separator=true
 
-[red-hat]
+[separator]
+command=printf '\n\n'
 interval=once
 # separator=false
 # separator_block_width=30

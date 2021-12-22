@@ -1,25 +1,15 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -x
-set -u -o pipefail
+output=$(xrandr --output VGA-1 --off --output HDMI-1 --off --output HDMI-2 --off \
+    --output DP-1 --primary --mode 2560x1440 --pos 1440x0 --rotate normal \
+    --output HDMI-3 \
+    --mode 2560x1440 \
+    --pos 0x0 --rotate right --scale '1' 2>&1)
 
-laptop="eDP-1"
-external_bigmon="DP-3"
-#external_bigmon="DP-2"
-# external_smallmon="DP-1"
-
-monitors=$(xrandr | grep connected | grep -v disconnected)
-if echo "${monitors}" | grep -q $external_bigmon; then
-    echo "Desktop configuration"
-    xrandr --output $laptop --mode 1920x1080
-    xrandr --output $external_bigmon --primary --mode 2560x1440 --pos 1920x0 
-    notify-send "Desktop config" -i "video-display"
+# icons list:
+# https://specifications.freedesktop.org/icon-naming-spec/latest/ar01s04.html 
+if [ "$?" == "0" ] ; then
+    notify-send 'Displays configured' -i 'video-display'
 else
-    echo "Laptop configuration"
-    xrandr --output $laptop --mode 1920x1080 --primary \
-        --output $external_bigmon --off 
-    notify-send "Laptop config" -i "video-display"
+    notify-send "Failed to configure displays: $output" -i 'dialog-error'
 fi
-
-
-$(dirname $0)/wallpapers

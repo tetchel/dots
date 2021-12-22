@@ -3,17 +3,21 @@
 import urllib.request
 import json
 import os
+from datetime import datetime
 
 cities = [
-    [ 'Toronto', 6167865, 'https://www.accuweather.com/en/ca/toronto/m5h/weather-forecast/55488' ],
-    [ 'Haliburton', 6942554, 'https://www.accuweather.com/en/ca/haliburton/k0m/weather-forecast/54943' ],
-    [ 'Victoria', 6174041, 'https://www.accuweather.com/en/ca/victoria/v8w/weather-forecast/47163' ]
+    # Toronto
+    6167865,
+    # Haliburton
+    6942554, 
+    # Victoria
+    6174041,
 ]
 
-[ city_name, city, city_url ] = cities[2]
+city = cities[2]
 
 if os.environ.get('BLOCK_BUTTON') == '1':
-    os.system('firefox ' + city_url)
+    os.system('firefox ' + 'https://openweathermap.org/city/' + str(city))
 
 key_loc = os.path.dirname(os.path.realpath(__file__)) + '/.owm'
 key = ''
@@ -26,7 +30,7 @@ except:
     print("OWM key file error.")
     exit
 
-url=('http://api.openweathermap.org/data/2.5/weather?id=%s&appid=%s' % (city, key))
+url=('https://api.openweathermap.org/data/2.5/weather?id=%s&appid=%s' % (city, key))
 #print(url)
 
 response = ''
@@ -46,48 +50,106 @@ with urllib.request.urlopen(url) as connection:
 
 jso = json.loads(response)
 
+sunrise_unix = int(jso["sys"]["sunrise"])
+sunrise_local = datetime.fromtimestamp(sunrise_unix)
+sunset_unix = int(jso["sys"]["sunset"])
+sunset_local = datetime.fromtimestamp(sunset_unix)
+now = datetime.now()
+
+SUN_COLOR='#fff400'
+MOON_COLOR='#ccc400'
+
+if sunrise_local <= now and sunset_local >= now:
+    is_day=True
+    sun_or_moon=''
+    sun_moon_color=SUN_COLOR
+    until=sunset_local
+else:
+    is_day=False
+    sun_or_moon = ''
+    sun_moon_color=MOON_COLOR
+    # this is not quite accurate because it's today's (past) sunrise, being represented as tomorrow's
+    # but it is close enough
+    until=sunrise_local
+
 temp = jso["main"]["temp"]
 temp = int(temp)
 # K to C
 temp -= 273
 
-temp_icon=''
-if temp < 18:
-    temp_icon=''
-elif temp < 8:
-    temp_icon=''
-elif temp < -3:
+if temp < 0:
+    temp_icon=''
+elif temp < 10:
     temp_icon=''
+elif temp < 17:
+    temp_icon=''
+elif temp < 24:
+    temp_icon=''
+else:
+    temp_icon=''
 
-# min width is 3 since "-10" is 3 wide
+min_temp_width=2
 temp = str(temp)
-#while(len(temp) < 3):
-#   temp = ' ' + temp 
+while(len(temp) < min_temp_width):
+   temp = ' ' + temp 
 
 # possible conditions:
 # Thunderstorm 2xx, Drizzle 3xx, Rain 5xx, Snow 6xx, Atmosphere (fog) 7xx, Clear 800, Clouds 80x, Extreme 90x
 code = jso["weather"][0]["id"]
 code = str(code)
 
-icon=''
-color='#FFF400'
+if jso['clouds']['all'] > 25:
+    is_cloudy=True
+else:
+    is_cloudy=False
+
+rain=' '
 if code.startswith('2'):
     icon=''
     color='#FFF426'
 elif code.startswith('3') or code.startswith('5'):
-    icon=''
     color='#1270B6'
+    if is_cloudy:
+       icon=''
+    elif is_day:
+        icon=''
+    else:
+        icon=''
+
+    if jso['rain']['1h']:
+        rain=str(jso['rain']['1h']) + 'mm '
 elif code.startswith('6'):
     icon=''
+    if jso['snow']['1h']:
+        rain=str(jso['snow']['1h']) + 'mm '
     color='#27AAE2'
-elif code.startswith('7') or (code.startswith('8') and code != '800'):
-    icon=''
-    color='#c1c2c6'
+elif is_cloudy and (code.startswith('7') or (code.startswith('8') and code != '800')):
+    # scattered clouds
+    if code == '802':
+        if is_day:
+            color=SUN_COLOR
+            icon=''
+        else:
+            color=MOON_COLOR
+            icon=''
+    else:
+        color='#4f8df8'
+        icon=''
 elif code.startswith('90'):
     icon=''
     color='#FFF426'
+else:
+    if is_day:
+        color=SUN_COLOR
+        icon=''
+    else:
+        color=MOON_COLOR
+        icon=''
 
-long_output='<span color="{}">{}</span>  {}°C  {}'.format(color, icon, str(temp), city_name)
+city_name = jso["name"]
+
+long_output='<span color="{}">{} {} </span>{} {}°C   <span color="{}">{}</span>    {}' \
+    .format(color, icon, rain, temp_icon, str(temp), sun_moon_color, sun_or_moon, until.strftime("%H:%M"))
 print(long_output)
 short_output='<span color="{}">{}</span>  {}°C'.format(color, icon, str(temp))
 print(short_output)
